@@ -4,6 +4,8 @@ import { persist, createJSONStorage } from 'zustand/middleware';
 interface User {
   id: string;
   email: string;
+  name?: string;
+  avatarUrl?: string;
   role: string;
   onboardingCompleted?: boolean;
 }
@@ -26,8 +28,8 @@ export const useAuthStore = create<AuthState>()(
       user: null,
       hasHydrated: false,
       setAuth: (token, user) => set({ token, user }),
-      updateUser: (userData) => set((state) => ({ 
-        user: state.user ? { ...state.user, ...userData } : null 
+      updateUser: (userData) => set((state) => ({
+        user: state.user ? { ...state.user, ...userData } : null
       })),
       logout: () => set({ token: null, user: null }),
       isAuthenticated: () => !!get().token,
