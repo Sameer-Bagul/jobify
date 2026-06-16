@@ -86,7 +86,7 @@ async function createSubscriptionOrder(userId: string, body: any) {
   if (!["pro", "pro_plus", "pro_max"].includes(planTier)) return json({ error: "Invalid plan tier" }, 400);
 
   const planConfig = PLAN_CONFIGS[planTier as PlanTier];
-  const receipt = `sub_${userId}_${Date.now()}`;
+  const receipt = `sub_${userId.toString().slice(-8)}_${Date.now()}`;
 
   const result = await createOrder({
     amount: planConfig.price, currency: SUBSCRIPTION_CURRENCY, receipt,

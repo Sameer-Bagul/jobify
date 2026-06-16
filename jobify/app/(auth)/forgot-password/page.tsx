@@ -84,21 +84,21 @@ export default function ForgotPassword() {
   };
 
   return (
-    <div className="min-h-screen bg-dark-900 flex items-center justify-center p-4">
-      <div className="absolute inset-0 bg-gradient-mesh opacity-30" />
-      <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-purple-600/10 rounded-full blur-[120px]" />
-      <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-blue-600/10 rounded-full blur-[120px]" />
+    <div className="min-h-screen bg-white flex items-center justify-center p-4">
+      
+      
+      
 
       <div className="relative z-10 w-full max-w-md">
         <div className="text-center mb-8">
           <Link href="/" className="inline-flex items-center gap-3 mb-8">
-            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-purple-600 to-blue-600 flex items-center justify-center">
-              <Briefcase className="h-6 w-6 text-white" />
+            <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-cayenne-red to-tangerine-dream flex items-center justify-center">
+              <Briefcase className="h-6 w-6 text-dark-walnut" />
             </div>
-            <span className="text-2xl font-bold bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-transparent">Jobify</span>
+            <span className="text-2xl font-bold bg-gradient-to-r from-dark-walnut to-dark-950 bg-clip-text text-transparent">Jobify</span>
           </Link>
-          <h1 className="text-3xl font-bold text-white mb-2">Reset Password</h1>
-          <p className="text-gray-400">
+          <h1 className="text-3xl font-bold text-dark-walnut mb-2">Reset Password</h1>
+          <p className="text-gray-600">
             {step === 'email' && "Enter your email to receive a reset code"}
             {step === 'otp' && "Enter the code sent to your email"}
             {step === 'reset' && "Create a new password"}
@@ -111,8 +111,8 @@ export default function ForgotPassword() {
               key={s}
               className={`w-20 h-1 rounded-full ${
                 i <= ['email', 'otp', 'reset'].indexOf(step)
-                  ? 'bg-gradient-to-r from-purple-600 to-blue-600'
-                  : 'bg-dark-700'
+                  ? 'bg-gradient-to-r from-cayenne-red to-tangerine-dream'
+                  : 'bg-gray-200'
               }`}
             />
           ))}
@@ -133,7 +133,7 @@ export default function ForgotPassword() {
           {step === 'email' && (
             <form onSubmit={handleSendOTP} className="space-y-6">
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">Email</label>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Email</label>
                 <div className="relative">
                   <Mail className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-500" />
                   <input
@@ -167,7 +167,7 @@ export default function ForgotPassword() {
           {step === 'otp' && (
             <form onSubmit={handleVerifyOTP} className="space-y-6">
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">Verification Code</label>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Verification Code</label>
                 <div className="relative">
                   <KeyRound className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-500" />
                   <input
@@ -200,7 +200,7 @@ export default function ForgotPassword() {
               <button
                 type="button"
                 onClick={() => setStep('email')}
-                className="w-full text-gray-400 hover:text-white flex items-center justify-center gap-2"
+                className="w-full text-gray-600 hover:text-dark-walnut flex items-center justify-center gap-2"
               >
                 <ArrowLeft className="h-4 w-4" />
                 Back to email
@@ -211,7 +211,7 @@ export default function ForgotPassword() {
           {step === 'reset' && (
             <form onSubmit={handleResetPassword} className="space-y-6">
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">New Password</label>
+                <label className="block text-sm font-medium text-gray-700 mb-2">New Password</label>
                 <div className="relative">
                   <Lock className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-500" />
                   <input
@@ -227,7 +227,7 @@ export default function ForgotPassword() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-300 mb-2">Confirm Password</label>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Confirm Password</label>
                 <div className="relative">
                   <Lock className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-500" />
                   <input
@@ -258,9 +258,9 @@ export default function ForgotPassword() {
             </form>
           )}
 
-          <div className="mt-6 text-center text-gray-400">
+          <div className="mt-6 text-center text-gray-600">
             Remember your password?{' '}
-            <Link href="/login" className="text-purple-400 hover:text-purple-300 transition-colors">
+            <Link href="/login" className="text-tangerine-dream hover:text-tangerine-dream transition-colors">
               Sign in
             </Link>
           </div>

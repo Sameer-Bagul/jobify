@@ -62,10 +62,10 @@ export default function AdminJobs() {
       <div className="max-w-7xl mx-auto">
         <div className="flex items-center justify-between mb-8">
           <div>
-            <h1 className="text-3xl font-bold text-white mb-2">Jobs</h1>
-            <p className="text-gray-400">Manage job listings</p>
+            <h1 className="text-3xl font-bold text-dark-walnut mb-2">Jobs</h1>
+            <p className="text-gray-600">Manage job listings</p>
           </div>
-          <div className="flex items-center gap-2 text-gray-400">
+          <div className="flex items-center gap-2 text-gray-600">
             <Briefcase className="h-5 w-5" />
             <span>{jobs.length} total jobs</span>
           </div>
@@ -86,21 +86,21 @@ export default function AdminJobs() {
 
         {loading ? (
           <div className="flex justify-center py-12">
-            <Loader2 className="h-8 w-8 animate-spin text-purple-400" />
+            <Loader2 className="h-8 w-8 animate-spin text-tangerine-dream" />
           </div>
         ) : (
           <div className="grid gap-4">
             {filteredJobs.map((job) => (
-              <div key={job._id} className="card hover:border-purple-500/30 transition-colors">
+              <div key={job._id} className="card hover:border-tangerine-dream/30 transition-colors">
                 <div className="flex items-start justify-between">
                   <div className="flex items-start gap-4">
-                    <div className="w-12 h-12 rounded-xl bg-blue-600/20 flex items-center justify-center flex-shrink-0">
-                      <Building className="h-6 w-6 text-blue-400" />
+                    <div className="w-12 h-12 rounded-xl bg-white flex items-center justify-center flex-shrink-0">
+                      <Building className="h-6 w-6 text-tangerine-dream" />
                     </div>
                     <div>
-                      <h3 className="text-lg font-semibold text-white mb-1">{job.title}</h3>
-                      <p className="text-gray-400 mb-2">{job.company}</p>
-                      <div className="flex flex-wrap gap-3 text-sm text-gray-400">
+                      <h3 className="text-lg font-semibold text-dark-walnut mb-1">{job.title}</h3>
+                      <p className="text-gray-600 mb-2">{job.company}</p>
+                      <div className="flex flex-wrap gap-3 text-sm text-gray-600">
                         <span className="flex items-center gap-1">
                           <MapPin className="h-4 w-4" />
                           {job.location}
@@ -112,7 +112,7 @@ export default function AdminJobs() {
                         <span className={`px-2 py-0.5 rounded text-xs ${
                           job.status === 'active' 
                             ? 'bg-green-600/20 text-green-400'
-                            : 'bg-gray-600/20 text-gray-400'
+                            : 'bg-gray-600/20 text-gray-600'
                         }`}>
                           {job.status}
                         </span>
@@ -122,9 +122,9 @@ export default function AdminJobs() {
                   <div className="flex items-center gap-2">
                     <a
                       href={`/dashboard/jobs/${job._id}`}
-                      className="p-2 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors"
+                      className="p-2 rounded-lg bg-gray-200 hover:bg-dark-600 transition-colors"
                     >
-                      <Eye className="h-5 w-5 text-gray-400" />
+                      <Eye className="h-5 w-5 text-gray-600" />
                     </a>
                     <button
                       onClick={() => handleDelete(job._id)}
@@ -145,7 +145,7 @@ export default function AdminJobs() {
             {filteredJobs.length === 0 && (
               <div className="card text-center py-12">
                 <Briefcase className="h-12 w-12 text-gray-600 mx-auto mb-4" />
-                <p className="text-gray-400">No jobs found</p>
+                <p className="text-gray-600">No jobs found</p>
               </div>
             )}
           </div>

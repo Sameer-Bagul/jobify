@@ -89,4 +89,4 @@ coldEmailLogSchema.index({ userId: 1, timestamp: -1 });
 coldEmailLogSchema.index({ status: 1 });
 coldEmailLogSchema.index({ recruiterEmail: 1 });
 
-export default mongoose.model<IColdEmailLog>("ColdEmailLog", coldEmailLogSchema);
+export default mongoose.models.ColdEmailLog || mongoose.model<IColdEmailLog>("ColdEmailLog", coldEmailLogSchema);

@@ -7,18 +7,18 @@ import { useAuthStore } from '@/store/auth';
 import api from '@/lib/api';
 
 interface Profile {
-  fullName: string;
+  name: string;
   phone: string;
   location: string;
   skills: string[];
-  experienceYears: number;
+  experience: string;
   currentJobTitle: string;
   linkedinUrl: string;
   portfolioUrl: string;
 }
 
 export default function Account() {
-  const user = useAuthStore((state) => state.user);
+  const { user, updateUser } = useAuthStore();
   const [profile, setProfile] = useState<Profile | null>(null);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -31,13 +31,16 @@ export default function Account() {
         const res = await api.get('/users/me');
         if (res.data.profile) {
           setProfile(res.data.profile);
+          if (res.data.profile.name && res.data.profile.name !== user?.name) {
+            updateUser({ name: res.data.profile.name });
+          }
         } else {
           setProfile({
-            fullName: '',
+            name: '',
             phone: '',
             location: '',
             skills: [],
-            experienceYears: 0,
+            experience: '',
             currentJobTitle: '',
             linkedinUrl: '',
             portfolioUrl: '',
@@ -72,6 +75,11 @@ export default function Account() {
 
     try {
       await api.put('/users/profile', profile);
+      
+      if (profile?.name && profile.name !== user?.name) {
+        updateUser({ name: profile.name });
+      }
+
       setSuccess(true);
       setTimeout(() => setSuccess(false), 3000);
     } catch (err) {
@@ -85,7 +93,7 @@ export default function Account() {
     return (
       <Layout>
         <div className="flex items-center justify-center h-64">
-          <div className="w-12 h-12 border-4 border-purple-600 border-t-transparent rounded-full animate-spin" />
+          <div className="w-12 h-12 border-4 border-gray-300 border-t-transparent rounded-full animate-spin" />
         </div>
       </Layout>
     );
@@ -95,8 +103,8 @@ export default function Account() {
     <Layout>
       <div className="max-w-2xl mx-auto">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-white mb-2">My Account</h1>
-          <p className="text-gray-400">{user?.email}</p>
+          <h1 className="text-3xl font-bold text-dark-walnut mb-2">My Account</h1>
+          <p className="text-gray-600">{user?.email}</p>
         </div>
 
         <form onSubmit={handleSubmit} className="card space-y-6">
@@ -107,28 +115,28 @@ export default function Account() {
             </div>
           )}
 
-          <div className="flex items-center gap-4 pb-6 border-b border-white/10">
-            <div className="w-16 h-16 rounded-full bg-gradient-to-br from-purple-600 to-blue-600 flex items-center justify-center">
-              <User className="h-8 w-8 text-white" />
+          <div className="flex items-center gap-4 pb-6 border-b border-gray-200">
+            <div className="w-16 h-16 rounded-full bg-gradient-to-br from-cayenne-red to-tangerine-dream flex items-center justify-center">
+              <User className="h-8 w-8 text-dark-walnut" />
             </div>
             <div>
-              <h2 className="text-xl font-semibold text-white">{profile?.fullName || 'Your Name'}</h2>
-              <p className="text-gray-400">{profile?.currentJobTitle || 'Job Title'}</p>
+              <h2 className="text-xl font-semibold text-dark-walnut">{profile?.name || 'Your Name'}</h2>
+              <p className="text-gray-600">{profile?.currentJobTitle || 'Job Title'}</p>
             </div>
           </div>
 
           <div className="grid md:grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">Full Name</label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Full Name</label>
               <input
                 type="text"
-                value={profile?.fullName || ''}
-                onChange={(e) => setProfile({ ...profile!, fullName: e.target.value })}
+                value={profile?.name || ''}
+                onChange={(e) => setProfile({ ...profile!, name: e.target.value })}
                 className="input-dark"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">Phone</label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Phone</label>
               <input
                 type="tel"
                 value={profile?.phone || ''}
@@ -140,7 +148,7 @@ export default function Account() {
 
           <div className="grid md:grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">Location</label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Location</label>
               <input
                 type="text"
                 value={profile?.location || ''}
@@ -149,7 +157,20 @@ export default function Account() {
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">Current Job Title</label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Years of Experience</label>
+              <input
+                type="number"
+                value={profile?.experience || ''}
+                onChange={(e) => setProfile({ ...profile!, experience: String(e.target.value) })}
+                className="input-dark"
+                min="0"
+              />
+            </div>
+          </div>
+
+          <div className="grid md:grid-cols-1 gap-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Current Job Title</label>
               <input
                 type="text"
                 value={profile?.currentJobTitle || ''}
@@ -160,7 +181,7 @@ export default function Account() {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-2">Skills</label>
+            <label className="block text-sm font-medium text-gray-700 mb-2">Skills</label>
             <div className="flex gap-2 mb-2">
               <input
                 type="text"
@@ -178,7 +199,7 @@ export default function Account() {
               {profile?.skills.map((skill) => (
                 <span
                   key={skill}
-                  className="inline-flex items-center gap-1 px-3 py-1 bg-purple-500/20 text-purple-300 rounded-full text-sm"
+                  className="inline-flex items-center gap-1 px-3 py-1 bg-white text-tangerine-dream rounded-full text-sm"
                 >
                   {skill}
                   <button type="button" onClick={() => removeSkill(skill)}>
@@ -191,7 +212,7 @@ export default function Account() {
 
           <div className="grid md:grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">LinkedIn URL</label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">LinkedIn URL</label>
               <input
                 type="url"
                 value={profile?.linkedinUrl || ''}
@@ -200,7 +221,7 @@ export default function Account() {
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">Portfolio URL</label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Portfolio URL</label>
               <input
                 type="url"
                 value={profile?.portfolioUrl || ''}

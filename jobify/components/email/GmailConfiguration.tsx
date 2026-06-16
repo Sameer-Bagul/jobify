@@ -29,12 +29,12 @@ export default function GmailConfiguration({
   return (
     <div className="card border border-dark-600">
       <div className="flex items-center gap-3 mb-4">
-        <div className="p-2 bg-purple-500/20 rounded-lg">
-          <Settings className="h-5 w-5 text-purple-400" />
+        <div className="p-2 bg-white rounded-lg">
+          <Settings className="h-5 w-5 text-tangerine-dream" />
         </div>
         <div>
-          <h2 className="text-lg font-semibold text-white">Gmail Configuration</h2>
-          <p className="text-sm text-gray-400">Configure your Gmail account to send cold emails</p>
+          <h2 className="text-lg font-semibold text-dark-walnut">Gmail Configuration</h2>
+          <p className="text-sm text-gray-600">Configure your Gmail account to send cold emails</p>
         </div>
         {hasGmailSetup && (
           <span className="ml-auto px-3 py-1 bg-green-500/20 text-green-400 text-sm rounded-full flex items-center gap-1">
@@ -60,7 +60,7 @@ export default function GmailConfiguration({
       
       <div className="grid md:grid-cols-2 gap-4">
         <div>
-          <label className="block text-sm font-medium text-gray-300 mb-2">Gmail ID</label>
+          <label className="block text-sm font-medium text-gray-700 mb-2">Gmail ID</label>
           <input
             type="email"
             value={gmailId}
@@ -70,7 +70,7 @@ export default function GmailConfiguration({
           />
         </div>
         <div>
-          <label className="block text-sm font-medium text-gray-300 mb-2">App Password</label>
+          <label className="block text-sm font-medium text-gray-700 mb-2">App Password</label>
           <div className="relative">
             <input
               type={showPassword ? 'text' : 'password'}
@@ -82,7 +82,7 @@ export default function GmailConfiguration({
             <button
               type="button"
               onClick={() => setShowPassword(!showPassword)}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white"
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-600 hover:text-dark-walnut"
             >
               {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
             </button>

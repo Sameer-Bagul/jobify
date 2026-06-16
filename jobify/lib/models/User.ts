@@ -64,4 +64,4 @@ userSchema.pre('save', function() {
   this.updatedAt = new Date();
 });
 
-export default mongoose.model<IUser>("User", userSchema);
+export default mongoose.models.User || mongoose.model<IUser>("User", userSchema);

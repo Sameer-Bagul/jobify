@@ -63,8 +63,8 @@ export default function RecruiterJobs() {
       <div className="max-w-6xl mx-auto">
         <div className="flex justify-between items-center mb-8">
           <div>
-            <h1 className="text-3xl font-bold text-white mb-2">My Jobs</h1>
-            <p className="text-gray-400">Manage your job postings</p>
+            <h1 className="text-3xl font-bold text-dark-walnut mb-2">My Jobs</h1>
+            <p className="text-gray-600">Manage your job postings</p>
           </div>
           <Link href="/dashboard/recruiter/post-job" className="btn-primary">
             Post New Job
@@ -73,11 +73,11 @@ export default function RecruiterJobs() {
 
         {loading ? (
           <div className="text-center py-12">
-            <div className="w-12 h-12 border-4 border-purple-600 border-t-transparent rounded-full animate-spin mx-auto" />
+            <div className="w-12 h-12 border-4 border-gray-300 border-t-transparent rounded-full animate-spin mx-auto" />
           </div>
         ) : jobs.length === 0 ? (
           <div className="card text-center py-16">
-            <p className="text-gray-400 mb-4">No jobs posted yet</p>
+            <p className="text-gray-600 mb-4">No jobs posted yet</p>
             <Link href="/dashboard/recruiter/post-job" className="btn-primary inline-flex">
               Post Your First Job
             </Link>
@@ -89,20 +89,20 @@ export default function RecruiterJobs() {
                 <div className="flex justify-between items-start">
                   <div className="flex-1">
                     <div className="flex items-center gap-3 mb-2">
-                      <h3 className="text-xl font-semibold text-white">{job.title}</h3>
+                      <h3 className="text-xl font-semibold text-dark-walnut">{job.title}</h3>
                       <span
                         className={`px-2 py-1 rounded-full text-xs ${
                           job.isActive
                             ? 'bg-green-500/20 text-green-400'
-                            : 'bg-gray-500/20 text-gray-400'
+                            : 'bg-gray-500/20 text-gray-600'
                         }`}
                       >
                         {job.isActive ? 'Active' : 'Inactive'}
                       </span>
                     </div>
-                    <p className="text-gray-400 mb-3">{job.company}</p>
+                    <p className="text-gray-600 mb-3">{job.company}</p>
 
-                    <div className="flex flex-wrap gap-4 text-sm text-gray-400 mb-4">
+                    <div className="flex flex-wrap gap-4 text-sm text-gray-600 mb-4">
                       <span className="flex items-center gap-1">
                         <MapPin className="h-4 w-4" />
                         {job.location}
@@ -121,7 +121,7 @@ export default function RecruiterJobs() {
                       {job.requiredSkills.slice(0, 5).map((skill) => (
                         <span
                           key={skill}
-                          className="px-3 py-1 bg-purple-500/20 text-purple-300 rounded-full text-sm"
+                          className="px-3 py-1 bg-white text-tangerine-dream rounded-full text-sm"
                         >
                           {skill}
                         </span>
@@ -136,16 +136,16 @@ export default function RecruiterJobs() {
                       title={job.isActive ? 'Deactivate' : 'Activate'}
                     >
                       {job.isActive ? (
-                        <EyeOff className="h-5 w-5 text-gray-400" />
+                        <EyeOff className="h-5 w-5 text-gray-600" />
                       ) : (
-                        <Eye className="h-5 w-5 text-gray-400" />
+                        <Eye className="h-5 w-5 text-gray-600" />
                       )}
                     </button>
                     <Link
                       href={`/dashboard/recruiter/post-job?edit=${job._id}`}
                       className="p-2 rounded-lg hover:bg-dark-600 transition-colors"
                     >
-                      <Edit className="h-5 w-5 text-gray-400" />
+                      <Edit className="h-5 w-5 text-gray-600" />
                     </Link>
                     <button
                       onClick={() => deleteJob(job._id)}

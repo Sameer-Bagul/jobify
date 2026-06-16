@@ -103,8 +103,8 @@ export default function AdminRecruiters() {
       <div className="max-w-7xl mx-auto">
         <div className="flex items-center justify-between mb-8">
           <div>
-            <h1 className="text-3xl font-bold text-white mb-2">Internal Recruiters</h1>
-            <p className="text-gray-400">Manage internal recruiter contacts</p>
+            <h1 className="text-3xl font-bold text-dark-walnut mb-2">Internal Recruiters</h1>
+            <p className="text-gray-600">Manage internal recruiter contacts</p>
           </div>
           <button
             onClick={() => openModal()}
@@ -130,22 +130,22 @@ export default function AdminRecruiters() {
 
         {loading ? (
           <div className="flex justify-center py-12">
-            <Loader2 className="h-8 w-8 animate-spin text-purple-400" />
+            <Loader2 className="h-8 w-8 animate-spin text-tangerine-dream" />
           </div>
         ) : (
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
             {filteredRecruiters.map((recruiter) => (
               <div key={recruiter._id} className="card">
                 <div className="flex items-start justify-between mb-4">
-                  <div className="w-12 h-12 rounded-xl bg-purple-600/20 flex items-center justify-center">
-                    <Users className="h-6 w-6 text-purple-400" />
+                  <div className="w-12 h-12 rounded-xl bg-white flex items-center justify-center">
+                    <Users className="h-6 w-6 text-tangerine-dream" />
                   </div>
                   <div className="flex items-center gap-2">
                     <button
                       onClick={() => openModal(recruiter)}
-                      className="p-2 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors"
+                      className="p-2 rounded-lg bg-gray-200 hover:bg-dark-600 transition-colors"
                     >
-                      <Edit className="h-4 w-4 text-gray-400" />
+                      <Edit className="h-4 w-4 text-gray-600" />
                     </button>
                     <button
                       onClick={() => handleDelete(recruiter._id)}
@@ -160,8 +160,8 @@ export default function AdminRecruiters() {
                     </button>
                   </div>
                 </div>
-                <h3 className="text-lg font-semibold text-white mb-2">{recruiter.name}</h3>
-                <div className="space-y-2 text-sm text-gray-400">
+                <h3 className="text-lg font-semibold text-dark-walnut mb-2">{recruiter.name}</h3>
+                <div className="space-y-2 text-sm text-gray-600">
                   <p className="flex items-center gap-2">
                     <Mail className="h-4 w-4" />
                     {recruiter.email}
@@ -177,7 +177,7 @@ export default function AdminRecruiters() {
             {filteredRecruiters.length === 0 && (
               <div className="col-span-full card text-center py-12">
                 <Users className="h-12 w-12 text-gray-600 mx-auto mb-4" />
-                <p className="text-gray-400">No recruiters found</p>
+                <p className="text-gray-600">No recruiters found</p>
               </div>
             )}
           </div>
@@ -187,20 +187,20 @@ export default function AdminRecruiters() {
           <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
             <div className="card w-full max-w-md">
               <div className="flex items-center justify-between mb-6">
-                <h2 className="text-xl font-bold text-white">
+                <h2 className="text-xl font-bold text-dark-walnut">
                   {editingRecruiter ? 'Edit Recruiter' : 'Add Recruiter'}
                 </h2>
                 <button
                   onClick={closeModal}
-                  className="p-2 rounded-lg hover:bg-dark-700 transition-colors"
+                  className="p-2 rounded-lg hover:bg-gray-200 transition-colors"
                 >
-                  <X className="h-5 w-5 text-gray-400" />
+                  <X className="h-5 w-5 text-gray-600" />
                 </button>
               </div>
 
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-300 mb-2">Name</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Name</label>
                   <input
                     type="text"
                     value={formData.name}
@@ -212,7 +212,7 @@ export default function AdminRecruiters() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-300 mb-2">Email</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Email</label>
                   <input
                     type="email"
                     value={formData.email}
@@ -224,7 +224,7 @@ export default function AdminRecruiters() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-300 mb-2">Company</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">Company</label>
                   <input
                     type="text"
                     value={formData.company}

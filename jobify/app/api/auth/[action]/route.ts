@@ -108,18 +108,21 @@ async function login(body: any, req: NextRequest) {
   });
 
   let onboardingCompleted = true;
+  let userName = undefined;
   if (user.role === "seeker") {
     const profile = await UserProfile.findOne({ userId: user._id });
     onboardingCompleted = profile?.onboardingCompleted ?? false;
+    userName = profile?.name;
   } else if (user.role === "recruiter") {
     const recruiter = await Recruiter.findOne({ userId: user._id });
     onboardingCompleted = recruiter?.onboardingCompleted ?? false;
+    userName = recruiter?.recruiterName;
   }
 
   const response = json({
     message: "Login successful",
     token,
-    user: { id: user._id, email: user.email, role: user.role, onboardingCompleted },
+    user: { id: user._id, email: user.email, role: user.role, onboardingCompleted, name: userName },
   });
   
   response.cookies.set('token', token, { httpOnly: true, secure: process.env.NODE_ENV === 'production', maxAge: 604800, path: '/' });

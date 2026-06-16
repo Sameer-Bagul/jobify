@@ -109,4 +109,4 @@ jobSchema.index({ location: 1 });
 jobSchema.index({ company: 1 });
 jobSchema.index({ isActive: 1, createdAt: -1 });
 
-export default mongoose.model<IJob>("Job", jobSchema);
+export default mongoose.models.Job || mongoose.model<IJob>("Job", jobSchema);

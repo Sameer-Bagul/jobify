@@ -86,4 +86,4 @@ recruiterSchema.index({ recruiterEmail: 1 });
 recruiterSchema.index({ companyName: 1 });
 recruiterSchema.index({ isInternal: 1 });
 
-export default mongoose.model<IRecruiter>("Recruiter", recruiterSchema);
+export default mongoose.models.Recruiter || mongoose.model<IRecruiter>("Recruiter", recruiterSchema);

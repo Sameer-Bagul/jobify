@@ -11,6 +11,10 @@ export interface IUserProfile extends Document {
   gmailId: string;
   gmailAppPassword: string;
   resumeUrl: string;
+  linkedinUrl: string;
+  portfolioUrl: string;
+  location: string;
+  currentJobTitle: string;
   resumeAnalysis: {
     extractedSkills: string[];
     experienceSummary: string;
@@ -66,6 +70,22 @@ const userProfileSchema = new Schema<IUserProfile>({
     type: String,
     default: null,
   },
+  linkedinUrl: {
+    type: String,
+    default: null,
+  },
+  portfolioUrl: {
+    type: String,
+    default: null,
+  },
+  location: {
+    type: String,
+    default: null,
+  },
+  currentJobTitle: {
+    type: String,
+    default: null,
+  },
   resumeAnalysis: {
     extractedSkills: {
       type: [String],
@@ -100,10 +120,15 @@ const userProfileSchema = new Schema<IUserProfile>({
     type: Date,
     default: Date.now,
   },
-});
+}, { strict: false });
 
 userProfileSchema.pre('save', function() {
   this.updatedAt = new Date();
 });
+
+// Clear cache for hot reloading
+if (mongoose.models.UserProfile) {
+  delete mongoose.models.UserProfile;
+}
 
 export default mongoose.model<IUserProfile>("UserProfile", userProfileSchema);

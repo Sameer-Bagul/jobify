@@ -151,4 +151,4 @@ subscriptionSchema.pre('save', function() {
 subscriptionSchema.index({ userId: 1, status: 1 });
 subscriptionSchema.index({ razorpayOrderId: 1 });
 
-export default mongoose.model<ISubscription>("Subscription", subscriptionSchema);
+export default mongoose.models.Subscription || mongoose.model<ISubscription>("Subscription", subscriptionSchema);

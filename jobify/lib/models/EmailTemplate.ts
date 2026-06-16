@@ -67,4 +67,4 @@ emailTemplateSchema.pre('save', function() {
 emailTemplateSchema.index({ userId: 1 });
 emailTemplateSchema.index({ isDefault: 1 });
 
-export default mongoose.model<IEmailTemplate>("EmailTemplate", emailTemplateSchema);
+export default mongoose.models.EmailTemplate || mongoose.model<IEmailTemplate>("EmailTemplate", emailTemplateSchema);

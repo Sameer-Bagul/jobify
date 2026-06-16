@@ -114,7 +114,7 @@ async function getMe(userId: string) {
   const subscription = await Subscription.findOne({ userId: user._id, status: "active", endDate: { $gte: new Date() } });
 
   return json({
-    user: { id: user._id, email: user.email, role: user.role, createdAt: user.createdAt },
+    user: { id: user._id, email: user.email, role: user.role, createdAt: user.createdAt, name: profile?.name || user.name },
     profile: profile || null,
     isSubscribed: !!subscription,
     subscription: subscription ? { planName: subscription.planName, endDate: subscription.endDate } : null,
@@ -122,7 +122,7 @@ async function getMe(userId: string) {
 }
 
 async function completeOnboarding(userId: string, body: any) {
-  const { name, phone, skills, experience, projects, education, gmailId, gmailAppPassword } = body;
+  const { name, phone, skills, experience, projects, education, gmailId, gmailAppPassword, location, currentJobTitle, linkedinUrl, portfolioUrl } = body;
   let profile = await UserProfile.findOne({ userId });
   const encryptedPassword = gmailAppPassword ? encrypt(gmailAppPassword) : undefined;
 
@@ -130,6 +130,7 @@ async function completeOnboarding(userId: string, body: any) {
     profile = await UserProfile.create({
       userId, name, phone, skills: skills || [], experience, projects, education,
       gmailId, gmailAppPassword: encryptedPassword, onboardingCompleted: true,
+      location, currentJobTitle, linkedinUrl, portfolioUrl
     });
   } else {
     if (name) profile.name = name;
@@ -140,6 +141,10 @@ async function completeOnboarding(userId: string, body: any) {
     if (education) profile.education = education;
     if (gmailId) profile.gmailId = gmailId;
     if (gmailAppPassword) profile.gmailAppPassword = encryptedPassword!;
+    if (location !== undefined) profile.location = location;
+    if (currentJobTitle !== undefined) profile.currentJobTitle = currentJobTitle;
+    if (linkedinUrl !== undefined) profile.linkedinUrl = linkedinUrl;
+    if (portfolioUrl !== undefined) profile.portfolioUrl = portfolioUrl;
     profile.onboardingCompleted = true;
     await profile.save();
   }
@@ -157,21 +162,35 @@ async function completeOnboarding(userId: string, body: any) {
 }
 
 async function updateProfile(userId: string, body: any) {
-  const { name, phone, skills, experience, projects, education, gmailId, gmailAppPassword, resumeUrl } = body;
-  const profile = await UserProfile.findOne({ userId });
+  console.log('--- updateProfile API called ---');
+  console.log('Request body:', body);
+  const { name, phone, skills, experience, projects, education, gmailId, gmailAppPassword, resumeUrl, location, currentJobTitle, linkedinUrl, portfolioUrl } = body;
+  
+  const updateData: any = {};
+  if (name !== undefined) updateData.name = name;
+  if (phone !== undefined) updateData.phone = phone;
+  if (skills !== undefined) updateData.skills = skills;
+  if (experience !== undefined) updateData.experience = experience;
+  if (projects !== undefined) updateData.projects = projects;
+  if (education !== undefined) updateData.education = education;
+  if (gmailId !== undefined) updateData.gmailId = gmailId;
+  if (gmailAppPassword !== undefined) updateData.gmailAppPassword = encrypt(gmailAppPassword);
+  if (resumeUrl !== undefined) updateData.resumeUrl = resumeUrl;
+  if (location !== undefined) updateData.location = location;
+  if (currentJobTitle !== undefined) updateData.currentJobTitle = currentJobTitle;
+  if (linkedinUrl !== undefined) updateData.linkedinUrl = linkedinUrl;
+  if (portfolioUrl !== undefined) updateData.portfolioUrl = portfolioUrl;
+  updateData.updatedAt = new Date();
+
+  const profile = await UserProfile.findOneAndUpdate(
+    { userId },
+    { $set: updateData },
+    { new: true, strict: false }
+  );
+
   if (!profile) return json({ error: "Profile not found" }, 404);
 
-  if (name !== undefined) profile.name = name;
-  if (phone !== undefined) profile.phone = phone;
-  if (skills !== undefined) profile.skills = skills;
-  if (experience !== undefined) profile.experience = experience;
-  if (projects !== undefined) profile.projects = projects;
-  if (education !== undefined) profile.education = education;
-  if (gmailId !== undefined) profile.gmailId = gmailId;
-  if (gmailAppPassword !== undefined) profile.gmailAppPassword = encrypt(gmailAppPassword);
-  if (resumeUrl !== undefined) profile.resumeUrl = resumeUrl;
-
-  await profile.save();
+  console.log('Profile saved successfully. Document:', profile.toObject());
 
   await ActivityLog.create({ userId, action: "Updated profile", actionType: "profile_updated", details: {} });
 

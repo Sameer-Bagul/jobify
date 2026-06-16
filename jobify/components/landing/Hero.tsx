@@ -5,19 +5,19 @@ export default function Hero() {
     return (
         <section className="max-w-7xl mx-auto px-6 pt-20 pb-24 grid lg:grid-cols-2 gap-16 items-center">
             <div className="text-left">
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full glass mb-8 border-purple-500/20 animate-fade-in">
-                    <span className="flex h-2 w-2 rounded-full bg-purple-500 animate-pulse" />
-                    <span className="text-xs font-bold uppercase tracking-wider text-purple-400">Newly Launched v2.0</span>
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full glass mb-8 border-tangerine-dream/20 animate-fade-in">
+                    <span className="flex h-2 w-2 rounded-full bg-white animate-pulse" />
+                    <span className="text-xs font-bold uppercase tracking-wider text-tangerine-dream">Newly Launched v2.0</span>
                 </div>
 
                 <h1 className="text-6xl md:text-8xl font-bold mb-8 leading-[1.1] font-outfit">
-                    <span className="text-white">Stop Applying.</span>
+                    <span className="text-dark-walnut">Stop Applying.</span>
                     <br />
                     <span className="gradient-text">Start Connecting.</span>
                 </h1>
 
-                <p className="text-xl text-gray-400 mb-12 max-w-xl leading-relaxed">
-                    The world's first AI-powered job search platform that doesn't just find jobs, but lands you interviews through automated, personalized recruiter outreach.
+                <p className="text-xl text-gray-600 mb-12 max-w-xl leading-relaxed">
+                    The world's premier automated job search platform that doesn't just find jobs, but lands you interviews through automated, personalized recruiter outreach.
                 </p>
 
                 <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4">
@@ -32,25 +32,25 @@ export default function Hero() {
                 <div className="mt-12 flex items-center gap-6">
                     <div className="flex -space-x-3">
                         {[1, 2, 3, 4].map((i) => (
-                            <div key={i} className="w-10 h-10 rounded-full border-2 border-dark-900 bg-dark-700 flex items-center justify-center text-[10px] font-bold text-white">
+                            <div key={i} className="w-10 h-10 rounded-full border-2 border-dark-900 bg-gray-200 flex items-center justify-center text-[10px] font-bold text-dark-walnut">
                                 {String.fromCharCode(64 + i)}
                             </div>
                         ))}
-                        <div className="w-10 h-10 rounded-full border-2 border-dark-900 bg-purple-600 flex items-center justify-center text-[10px] font-bold text-white">
+                        <div className="w-10 h-10 rounded-full border-2 border-dark-900 bg-white flex items-center justify-center text-[10px] font-bold text-dark-walnut">
                             99+
                         </div>
                     </div>
                     <div className="text-sm text-gray-500">
-                        <span className="text-white font-bold">2,500+</span> professionals already landed roles
+                        <span className="text-dark-walnut font-bold">2,500+</span> professionals already landed roles
                     </div>
                 </div>
             </div>
 
             <div className="relative hidden lg:block">
-                <div className="absolute inset-0 bg-gradient-to-r from-purple-600/20 to-blue-600/20 blur-[100px] -z-10" />
-                <div className="card border-white/10 p-2 overflow-hidden shadow-2xl relative">
-                    <div className="bg-dark-950 rounded-xl p-6 relative overflow-hidden">
-                        <div className="flex items-center gap-3 mb-8 border-b border-white/5 pb-4">
+                
+                <div className="card border-gray-200 p-2 overflow-hidden shadow-2xl relative">
+                    <div className="bg-gray-50 rounded-xl p-6 relative overflow-hidden">
+                        <div className="flex items-center gap-3 mb-8 border-b border-gray-200 pb-4">
                             <div className="w-3 h-3 rounded-full bg-red-500" />
                             <div className="w-3 h-3 rounded-full bg-yellow-500" />
                             <div className="w-3 h-3 rounded-full bg-green-500" />
@@ -67,11 +67,11 @@ export default function Hero() {
                                 <div className="shimmer h-4 w-4/6 rounded bg-white/5" />
                             </div>
                             <div className="flex items-center gap-4 mt-8">
-                                <div className="w-12 h-12 rounded-lg bg-purple-600/20 border border-purple-500/30 flex items-center justify-center">
-                                    <CheckCircle2 className="text-purple-400 h-6 w-6" />
+                                <div className="w-12 h-12 rounded-lg bg-white border border-tangerine-dream/30 flex items-center justify-center">
+                                    <CheckCircle2 className="text-tangerine-dream h-6 w-6" />
                                 </div>
                                 <div>
-                                    <div className="text-xs font-bold text-white uppercase tracking-widest">Matched via AI</div>
+                                    <div className="text-xs font-bold text-dark-walnut uppercase tracking-widest">Matched via AI</div>
                                     <div className="text-[10px] text-gray-500">Skill overlap: 94%</div>
                                 </div>
                             </div>
@@ -81,7 +81,7 @@ export default function Hero() {
                             <div className="glass p-3 rounded-xl border-white/20 shadow-xl">
                                 <div className="flex items-center gap-2 mb-1">
                                     <Star className="h-3 w-3 text-yellow-500 fill-yellow-500" />
-                                    <span className="text-[10px] font-bold text-white">Interview Invitation</span>
+                                    <span className="text-[10px] font-bold text-dark-walnut">Interview Invitation</span>
                                 </div>
                                 <div className="text-[9px] text-gray-500 italic">"Love your background in React..."</div>
                             </div>

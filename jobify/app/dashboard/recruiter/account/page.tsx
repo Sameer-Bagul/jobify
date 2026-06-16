@@ -72,7 +72,7 @@ export default function RecruiterAccount() {
     return (
       <Layout>
         <div className="flex items-center justify-center h-64">
-          <div className="w-12 h-12 border-4 border-purple-600 border-t-transparent rounded-full animate-spin" />
+          <div className="w-12 h-12 border-4 border-gray-300 border-t-transparent rounded-full animate-spin" />
         </div>
       </Layout>
     );
@@ -82,8 +82,8 @@ export default function RecruiterAccount() {
     <Layout>
       <div className="max-w-2xl mx-auto">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-white mb-2">My Account</h1>
-          <p className="text-gray-400">{user?.email}</p>
+          <h1 className="text-3xl font-bold text-dark-walnut mb-2">My Account</h1>
+          <p className="text-gray-600">{user?.email}</p>
         </div>
 
         <form onSubmit={handleSubmit} className="card space-y-6">
@@ -94,18 +94,18 @@ export default function RecruiterAccount() {
             </div>
           )}
 
-          <div className="flex items-center gap-4 pb-6 border-b border-white/10">
-            <div className="w-16 h-16 rounded-full bg-gradient-to-br from-purple-600 to-blue-600 flex items-center justify-center">
-              <Building2 className="h-8 w-8 text-white" />
+          <div className="flex items-center gap-4 pb-6 border-b border-gray-200">
+            <div className="w-16 h-16 rounded-full bg-gradient-to-br from-cayenne-red to-tangerine-dream flex items-center justify-center">
+              <Building2 className="h-8 w-8 text-dark-walnut" />
             </div>
             <div>
-              <h2 className="text-xl font-semibold text-white">{profile?.companyName || 'Company Name'}</h2>
-              <p className="text-gray-400">{profile?.industry || 'Industry'}</p>
+              <h2 className="text-xl font-semibold text-dark-walnut">{profile?.companyName || 'Company Name'}</h2>
+              <p className="text-gray-600">{profile?.industry || 'Industry'}</p>
             </div>
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-2">Company Name</label>
+            <label className="block text-sm font-medium text-gray-700 mb-2">Company Name</label>
             <input
               type="text"
               value={profile?.companyName || ''}
@@ -116,7 +116,7 @@ export default function RecruiterAccount() {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-2">Company Website</label>
+            <label className="block text-sm font-medium text-gray-700 mb-2">Company Website</label>
             <input
               type="url"
               value={profile?.companyWebsite || ''}
@@ -127,7 +127,7 @@ export default function RecruiterAccount() {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-2">Company Description</label>
+            <label className="block text-sm font-medium text-gray-700 mb-2">Company Description</label>
             <textarea
               value={profile?.companyDescription || ''}
               onChange={(e) => setProfile({ ...profile!, companyDescription: e.target.value })}
@@ -138,7 +138,7 @@ export default function RecruiterAccount() {
 
           <div className="grid md:grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">Industry</label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Industry</label>
               <input
                 type="text"
                 value={profile?.industry || ''}
@@ -148,7 +148,7 @@ export default function RecruiterAccount() {
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">Company Size</label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Company Size</label>
               <select
                 value={profile?.companySize || ''}
                 onChange={(e) => setProfile({ ...profile!, companySize: e.target.value })}

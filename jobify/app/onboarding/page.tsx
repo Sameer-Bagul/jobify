@@ -17,11 +17,11 @@ export default function Onboarding() {
   const isRecruiter = user?.role === 'recruiter';
 
   const [seekerData, setSeekerData] = useState({
-    fullName: '',
+    name: '',
     phone: '',
     location: '',
     skills: [] as string[],
-    experienceYears: 0,
+    experience: '0',
     currentJobTitle: '',
     linkedinUrl: '',
     portfolioUrl: '',
@@ -49,6 +49,36 @@ export default function Onboarding() {
 
   const removeSkill = (skill: string) => {
     setSeekerData({ ...seekerData, skills: seekerData.skills.filter(s => s !== skill) });
+  };
+
+  const handleNextStep = async () => {
+    setLoading(true);
+    try {
+      if (isRecruiter) {
+        await api.put('/users/profile', recruiterData);
+      } else {
+        const submitData = new FormData();
+        Object.entries(seekerData).forEach(([key, value]) => {
+          if (key === 'skills') {
+            submitData.append(key, JSON.stringify(value));
+          } else {
+            submitData.append(key, String(value));
+          }
+        });
+        if (resume) {
+          submitData.append('resume', resume);
+        }
+        await api.put('/users/profile', submitData, {
+          headers: { 'Content-Type': 'multipart/form-data' },
+        });
+      }
+      setStep(step + 1);
+    } catch (err: unknown) {
+      const error = err as { response?: { data?: { message?: string, error?: string } } };
+      setError(error.response?.data?.message || error.response?.data?.error || 'Failed to save progress');
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleSeekerSubmit = async () => {
@@ -102,25 +132,25 @@ export default function Onboarding() {
   const totalSteps = isRecruiter ? 2 : 3;
 
   return (
-    <div className="min-h-screen bg-dark-900 flex items-center justify-center p-4">
-      <div className="absolute inset-0 bg-gradient-mesh opacity-30" />
+    <div className="min-h-screen bg-white flex items-center justify-center p-4">
+      
 
       <div className="relative z-10 w-full max-w-2xl">
         <div className="text-center mb-8">
-          <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-purple-600 to-blue-600 flex items-center justify-center mx-auto mb-4">
-            {isRecruiter ? <Building2 className="h-8 w-8 text-white" /> : <Briefcase className="h-8 w-8 text-white" />}
+          <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-cayenne-red to-tangerine-dream flex items-center justify-center mx-auto mb-4">
+            {isRecruiter ? <Building2 className="h-8 w-8 text-dark-walnut" /> : <Briefcase className="h-8 w-8 text-dark-walnut" />}
           </div>
-          <h1 className="text-3xl font-bold text-white mb-2">
+          <h1 className="text-3xl font-bold text-dark-walnut mb-2">
             {isRecruiter ? 'Set Up Your Recruiter Profile' : 'Complete Your Profile'}
           </h1>
-          <p className="text-gray-400">Step {step} of {totalSteps}</p>
+          <p className="text-gray-600">Step {step} of {totalSteps}</p>
           
           <div className="flex gap-2 justify-center mt-4">
             {Array.from({ length: totalSteps }, (_, i) => i + 1).map((s) => (
               <div
                 key={s}
                 className={`h-2 w-16 rounded-full transition-colors ${
-                  s <= step ? 'bg-gradient-to-r from-purple-600 to-blue-600' : 'bg-dark-600'
+                  s <= step ? 'bg-gradient-to-r from-cayenne-red to-tangerine-dream' : 'bg-dark-600'
                 }`}
               />
             ))}
@@ -138,10 +168,10 @@ export default function Onboarding() {
             <>
               {step === 1 && (
                 <div className="space-y-6">
-                  <h2 className="text-xl font-semibold text-white mb-4">Company Information</h2>
+                  <h2 className="text-xl font-semibold text-dark-walnut mb-4">Company Information</h2>
                   
                   <div>
-                    <label className="block text-sm font-medium text-gray-300 mb-2">Company Name *</label>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Company Name *</label>
                     <input
                       type="text"
                       value={recruiterData.companyName}
@@ -152,7 +182,7 @@ export default function Onboarding() {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-300 mb-2">Your Name *</label>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Your Name *</label>
                     <input
                       type="text"
                       value={recruiterData.recruiterName}
@@ -163,7 +193,7 @@ export default function Onboarding() {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-300 mb-2">Industry</label>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Industry</label>
                     <select
                       value={recruiterData.industry}
                       onChange={(e) => setRecruiterData({ ...recruiterData, industry: e.target.value })}
@@ -185,10 +215,10 @@ export default function Onboarding() {
 
               {step === 2 && (
                 <div className="space-y-6">
-                  <h2 className="text-xl font-semibold text-white mb-4">Contact Details</h2>
+                  <h2 className="text-xl font-semibold text-dark-walnut mb-4">Contact Details</h2>
                   
                   <div>
-                    <label className="block text-sm font-medium text-gray-300 mb-2">Phone Number</label>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Phone Number</label>
                     <input
                       type="tel"
                       value={recruiterData.phone}
@@ -199,7 +229,7 @@ export default function Onboarding() {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-300 mb-2">Location</label>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Location</label>
                     <input
                       type="text"
                       value={recruiterData.location}
@@ -210,7 +240,7 @@ export default function Onboarding() {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-300 mb-2">LinkedIn URL</label>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">LinkedIn URL</label>
                     <input
                       type="url"
                       value={recruiterData.linkedinUrl}
@@ -226,14 +256,14 @@ export default function Onboarding() {
             <>
               {step === 1 && (
                 <div className="space-y-6">
-                  <h2 className="text-xl font-semibold text-white mb-4">Personal Information</h2>
+                  <h2 className="text-xl font-semibold text-dark-walnut mb-4">Personal Information</h2>
                   
                   <div>
-                    <label className="block text-sm font-medium text-gray-300 mb-2">Full Name</label>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Full Name</label>
                     <input
                       type="text"
-                      value={seekerData.fullName}
-                      onChange={(e) => setSeekerData({ ...seekerData, fullName: e.target.value })}
+                      value={seekerData.name}
+                      onChange={(e) => setSeekerData({ ...seekerData, name: e.target.value })}
                       className="input-dark"
                       placeholder="John Doe"
                     />
@@ -241,7 +271,7 @@ export default function Onboarding() {
 
                   <div className="grid grid-cols-2 gap-4">
                     <div>
-                      <label className="block text-sm font-medium text-gray-300 mb-2">Phone</label>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Phone</label>
                       <input
                         type="tel"
                         value={seekerData.phone}
@@ -251,7 +281,7 @@ export default function Onboarding() {
                       />
                     </div>
                     <div>
-                      <label className="block text-sm font-medium text-gray-300 mb-2">Location</label>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">Location</label>
                       <input
                         type="text"
                         value={seekerData.location}
@@ -263,7 +293,7 @@ export default function Onboarding() {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-300 mb-2">Current Job Title</label>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Current Job Title</label>
                     <input
                       type="text"
                       value={seekerData.currentJobTitle}
@@ -277,10 +307,10 @@ export default function Onboarding() {
 
               {step === 2 && (
                 <div className="space-y-6">
-                  <h2 className="text-xl font-semibold text-white mb-4">Skills & Experience</h2>
+                  <h2 className="text-xl font-semibold text-dark-walnut mb-4">Skills & Experience</h2>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-300 mb-2">Skills</label>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Skills</label>
                     <div className="flex gap-2 mb-2">
                       <input
                         type="text"
@@ -298,7 +328,7 @@ export default function Onboarding() {
                       {seekerData.skills.map((skill) => (
                         <span
                           key={skill}
-                          className="inline-flex items-center gap-1 px-3 py-1 bg-purple-500/20 text-purple-300 rounded-full text-sm"
+                          className="inline-flex items-center gap-1 px-3 py-1 bg-white text-tangerine-dream rounded-full text-sm"
                         >
                           {skill}
                           <button onClick={() => removeSkill(skill)}>
@@ -310,11 +340,11 @@ export default function Onboarding() {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-300 mb-2">Years of Experience</label>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Years of Experience</label>
                     <input
                       type="number"
-                      value={seekerData.experienceYears}
-                      onChange={(e) => setSeekerData({ ...seekerData, experienceYears: parseInt(e.target.value) || 0 })}
+                      value={seekerData.experience}
+                      onChange={(e) => setSeekerData({ ...seekerData, experience: e.target.value })}
                       className="input-dark"
                       min="0"
                       max="50"
@@ -322,10 +352,10 @@ export default function Onboarding() {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-300 mb-2">Resume</label>
-                    <label className="flex items-center justify-center gap-2 p-8 border-2 border-dashed border-white/10 rounded-lg cursor-pointer hover:border-purple-500/50 transition-colors">
-                      <Upload className="h-6 w-6 text-gray-400" />
-                      <span className="text-gray-400">
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Resume</label>
+                    <label className="flex items-center justify-center gap-2 p-8 border-2 border-dashed border-gray-200 rounded-lg cursor-pointer hover:border-gray-300 transition-colors">
+                      <Upload className="h-6 w-6 text-gray-600" />
+                      <span className="text-gray-600">
                         {resume ? resume.name : 'Click to upload your resume (PDF)'}
                       </span>
                       <input
@@ -341,10 +371,10 @@ export default function Onboarding() {
 
               {step === 3 && (
                 <div className="space-y-6">
-                  <h2 className="text-xl font-semibold text-white mb-4">Email & Links</h2>
+                  <h2 className="text-xl font-semibold text-dark-walnut mb-4">Email & Links</h2>
                   
                   <div>
-                    <label className="block text-sm font-medium text-gray-300 mb-2">Gmail App Password</label>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Gmail App Password</label>
                     <input
                       type="password"
                       value={seekerData.gmailAppPassword}
@@ -358,7 +388,7 @@ export default function Onboarding() {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-300 mb-2">LinkedIn URL</label>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">LinkedIn URL</label>
                     <input
                       type="url"
                       value={seekerData.linkedinUrl}
@@ -369,7 +399,7 @@ export default function Onboarding() {
                   </div>
 
                   <div>
-                    <label className="block text-sm font-medium text-gray-300 mb-2">Portfolio URL</label>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">Portfolio URL</label>
                     <input
                       type="url"
                       value={seekerData.portfolioUrl}
@@ -393,8 +423,12 @@ export default function Onboarding() {
             )}
 
             {step < totalSteps ? (
-              <button onClick={() => setStep(step + 1)} className="btn-primary flex items-center gap-2">
-                Next <ArrowRight className="h-5 w-5" />
+              <button 
+                onClick={handleNextStep} 
+                disabled={loading}
+                className="btn-primary flex items-center gap-2"
+              >
+                {loading ? <Loader2 className="h-5 w-5 animate-spin" /> : <>Save & Continue <ArrowRight className="h-5 w-5" /></>}
               </button>
             ) : (
               <button

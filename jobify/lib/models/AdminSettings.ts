@@ -50,4 +50,4 @@ export const DEFAULT_SETTINGS = {
   MAX_RESUME_SIZE_MB: { key: "max_resume_size_mb", value: 5, description: "Maximum resume file size in MB" },
 };
 
-export default mongoose.model<IAdminSettings>("AdminSettings", adminSettingsSchema);
+export default mongoose.models.AdminSettings || mongoose.model<IAdminSettings>("AdminSettings", adminSettingsSchema);

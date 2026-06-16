@@ -69,8 +69,8 @@ export default function AdminDashboard() {
     <Layout>
       <div className="max-w-7xl mx-auto">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-white mb-2">Admin Dashboard</h1>
-          <p className="text-gray-400">Overview of platform performance</p>
+          <h1 className="text-3xl font-bold text-dark-walnut mb-2">Admin Dashboard</h1>
+          <p className="text-gray-600">Overview of platform performance</p>
         </div>
 
         <div className="grid md:grid-cols-4 gap-6 mb-8">
@@ -80,8 +80,8 @@ export default function AdminDashboard() {
               <div key={stat.label} className="card">
                 <div className="flex items-start justify-between">
                   <div>
-                    <p className="text-sm text-gray-400 mb-1">{stat.label}</p>
-                    <p className="text-3xl font-bold text-white">
+                    <p className="text-sm text-gray-600 mb-1">{stat.label}</p>
+                    <p className="text-3xl font-bold text-dark-walnut">
                       {loading ? '-' : stat.value.toLocaleString()}
                     </p>
                     {stat.trend !== undefined && (
@@ -102,24 +102,24 @@ export default function AdminDashboard() {
 
         <div className="grid md:grid-cols-2 gap-6">
           <div className="card">
-            <h2 className="text-xl font-semibold text-white mb-4 flex items-center gap-2">
-              <Activity className="h-5 w-5 text-purple-400" />
+            <h2 className="text-xl font-semibold text-dark-walnut mb-4 flex items-center gap-2">
+              <Activity className="h-5 w-5 text-tangerine-dream" />
               Quick Stats
             </h2>
             <div className="space-y-4">
-              <div className="flex items-center justify-between p-4 rounded-lg bg-dark-700">
-                <span className="text-gray-400">Active Users (24h)</span>
-                <span className="text-white font-semibold">{loading ? '-' : stats?.activeUsers || 0}</span>
+              <div className="flex items-center justify-between p-4 rounded-lg bg-gray-200">
+                <span className="text-gray-600">Active Users (24h)</span>
+                <span className="text-dark-walnut font-semibold">{loading ? '-' : stats?.activeUsers || 0}</span>
               </div>
-              <div className="flex items-center justify-between p-4 rounded-lg bg-dark-700">
-                <span className="text-gray-400">Revenue (Monthly)</span>
+              <div className="flex items-center justify-between p-4 rounded-lg bg-gray-200">
+                <span className="text-gray-600">Revenue (Monthly)</span>
                 <span className="text-green-400 font-semibold">
                   ₹{loading ? '-' : (stats?.revenue || 0).toLocaleString()}
                 </span>
               </div>
-              <div className="flex items-center justify-between p-4 rounded-lg bg-dark-700">
-                <span className="text-gray-400">Conversion Rate</span>
-                <span className="text-white font-semibold">
+              <div className="flex items-center justify-between p-4 rounded-lg bg-gray-200">
+                <span className="text-gray-600">Conversion Rate</span>
+                <span className="text-dark-walnut font-semibold">
                   {loading ? '-' : stats?.totalUsers ? ((stats.totalSubscriptions / stats.totalUsers) * 100).toFixed(1) : 0}%
                 </span>
               </div>
@@ -127,35 +127,35 @@ export default function AdminDashboard() {
           </div>
 
           <div className="card">
-            <h2 className="text-xl font-semibold text-white mb-4">Quick Actions</h2>
+            <h2 className="text-xl font-semibold text-dark-walnut mb-4">Quick Actions</h2>
             <div className="grid grid-cols-2 gap-3">
               <a
                 href="/dashboard/admin/users"
-                className="p-4 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors text-center"
+                className="p-4 rounded-lg bg-gray-200 hover:bg-dark-600 transition-colors text-center"
               >
-                <Users className="h-6 w-6 text-purple-400 mx-auto mb-2" />
-                <span className="text-white text-sm">Manage Users</span>
+                <Users className="h-6 w-6 text-tangerine-dream mx-auto mb-2" />
+                <span className="text-dark-walnut text-sm">Manage Users</span>
               </a>
               <a
                 href="/dashboard/admin/jobs"
-                className="p-4 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors text-center"
+                className="p-4 rounded-lg bg-gray-200 hover:bg-dark-600 transition-colors text-center"
               >
-                <Briefcase className="h-6 w-6 text-blue-400 mx-auto mb-2" />
-                <span className="text-white text-sm">Manage Jobs</span>
+                <Briefcase className="h-6 w-6 text-tangerine-dream mx-auto mb-2" />
+                <span className="text-dark-walnut text-sm">Manage Jobs</span>
               </a>
               <a
                 href="/dashboard/admin/email-logs"
-                className="p-4 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors text-center"
+                className="p-4 rounded-lg bg-gray-200 hover:bg-dark-600 transition-colors text-center"
               >
                 <Mail className="h-6 w-6 text-green-400 mx-auto mb-2" />
-                <span className="text-white text-sm">Email Logs</span>
+                <span className="text-dark-walnut text-sm">Email Logs</span>
               </a>
               <a
                 href="/dashboard/admin/settings"
-                className="p-4 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors text-center"
+                className="p-4 rounded-lg bg-gray-200 hover:bg-dark-600 transition-colors text-center"
               >
-                <CreditCard className="h-6 w-6 text-pink-400 mx-auto mb-2" />
-                <span className="text-white text-sm">Settings</span>
+                <CreditCard className="h-6 w-6 text-tangerine-dream mx-auto mb-2" />
+                <span className="text-dark-walnut text-sm">Settings</span>
               </a>
             </div>
           </div>

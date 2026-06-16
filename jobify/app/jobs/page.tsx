@@ -50,8 +50,8 @@ export default function Jobs() {
     <Layout>
       <div className="max-w-6xl mx-auto">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-white mb-2">Browse Jobs</h1>
-          <p className="text-gray-400">Find opportunities that match your skills</p>
+          <h1 className="text-3xl font-bold text-dark-walnut mb-2">Browse Jobs</h1>
+          <p className="text-gray-600">Find opportunities that match your skills</p>
         </div>
 
         <div className="mb-6">
@@ -69,11 +69,11 @@ export default function Jobs() {
 
         {loading ? (
           <div className="text-center py-12">
-            <div className="w-12 h-12 border-4 border-purple-600 border-t-transparent rounded-full animate-spin mx-auto" />
+            <div className="w-12 h-12 border-4 border-gray-300 border-t-transparent rounded-full animate-spin mx-auto" />
           </div>
         ) : filteredJobs.length === 0 ? (
           <div className="text-center py-12">
-            <p className="text-gray-400">No jobs found</p>
+            <p className="text-gray-600">No jobs found</p>
           </div>
         ) : (
           <div className="space-y-4">
@@ -81,14 +81,14 @@ export default function Jobs() {
               <Link
                 key={job._id}
                 href={`/dashboard/jobs/${job._id}`}
-                className="card block hover:border-purple-500/30 transition-colors"
+                className="card block hover:border-tangerine-dream/30 transition-colors"
               >
                 <div className="flex justify-between items-start">
                   <div>
-                    <h3 className="text-xl font-semibold text-white mb-1">{job.title}</h3>
-                    <p className="text-gray-400 mb-3">{job.company}</p>
+                    <h3 className="text-xl font-semibold text-dark-walnut mb-1">{job.title}</h3>
+                    <p className="text-gray-600 mb-3">{job.company}</p>
                     
-                    <div className="flex flex-wrap gap-4 text-sm text-gray-400 mb-4">
+                    <div className="flex flex-wrap gap-4 text-sm text-gray-600 mb-4">
                       <span className="flex items-center gap-1">
                         <MapPin className="h-4 w-4" />
                         {job.location}
@@ -107,13 +107,13 @@ export default function Jobs() {
                       {job.requiredSkills.slice(0, 5).map((skill) => (
                         <span
                           key={skill}
-                          className="px-3 py-1 bg-purple-500/20 text-purple-300 rounded-full text-sm"
+                          className="px-3 py-1 bg-white text-tangerine-dream rounded-full text-sm"
                         >
                           {skill}
                         </span>
                       ))}
                       {job.requiredSkills.length > 5 && (
-                        <span className="px-3 py-1 bg-dark-600 text-gray-400 rounded-full text-sm">
+                        <span className="px-3 py-1 bg-dark-600 text-gray-600 rounded-full text-sm">
                           +{job.requiredSkills.length - 5} more
                         </span>
                       )}

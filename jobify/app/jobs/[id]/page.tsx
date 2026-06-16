@@ -47,7 +47,7 @@ export default function JobDetail() {
     return (
       <Layout>
         <div className="flex items-center justify-center h-64">
-          <div className="w-12 h-12 border-4 border-purple-600 border-t-transparent rounded-full animate-spin" />
+          <div className="w-12 h-12 border-4 border-gray-300 border-t-transparent rounded-full animate-spin" />
         </div>
       </Layout>
     );
@@ -57,7 +57,7 @@ export default function JobDetail() {
     return (
       <Layout>
         <div className="text-center py-12">
-          <p className="text-gray-400">Job not found</p>
+          <p className="text-gray-600">Job not found</p>
         </div>
       </Layout>
     );
@@ -68,7 +68,7 @@ export default function JobDetail() {
       <div className="max-w-4xl mx-auto">
         <button
           onClick={() => router.back()}
-          className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors mb-6"
+          className="flex items-center gap-2 text-gray-600 hover:text-dark-walnut transition-colors mb-6"
         >
           <ArrowLeft className="h-5 w-5" />
           Back to Jobs
@@ -76,16 +76,16 @@ export default function JobDetail() {
 
         <div className="card mb-6">
           <div className="flex items-start gap-4 mb-6">
-            <div className="w-16 h-16 rounded-xl bg-gradient-to-br from-purple-600 to-blue-600 flex items-center justify-center">
-              <Briefcase className="h-8 w-8 text-white" />
+            <div className="w-16 h-16 rounded-xl bg-gradient-to-br from-cayenne-red to-tangerine-dream flex items-center justify-center">
+              <Briefcase className="h-8 w-8 text-dark-walnut" />
             </div>
             <div>
-              <h1 className="text-2xl font-bold text-white mb-1">{job.title}</h1>
-              <p className="text-gray-400 text-lg">{job.company}</p>
+              <h1 className="text-2xl font-bold text-dark-walnut mb-1">{job.title}</h1>
+              <p className="text-gray-600 text-lg">{job.company}</p>
             </div>
           </div>
 
-          <div className="flex flex-wrap gap-6 mb-6 text-gray-400">
+          <div className="flex flex-wrap gap-6 mb-6 text-gray-600">
             <span className="flex items-center gap-2">
               <MapPin className="h-5 w-5" />
               {job.location}
@@ -104,7 +104,7 @@ export default function JobDetail() {
             {job.requiredSkills.map((skill) => (
               <span
                 key={skill}
-                className="px-3 py-1 bg-purple-500/20 text-purple-300 rounded-full text-sm"
+                className="px-3 py-1 bg-white text-tangerine-dream rounded-full text-sm"
               >
                 {skill}
               </span>
@@ -112,14 +112,14 @@ export default function JobDetail() {
           </div>
 
           <div className="prose prose-invert max-w-none">
-            <h3 className="text-lg font-semibold text-white mb-3">Job Description</h3>
-            <p className="text-gray-300 whitespace-pre-wrap">{job.description}</p>
+            <h3 className="text-lg font-semibold text-dark-walnut mb-3">Job Description</h3>
+            <p className="text-gray-700 whitespace-pre-wrap">{job.description}</p>
           </div>
         </div>
 
         <div className="card">
-          <h3 className="text-lg font-semibold text-white mb-4">Apply via Cold Email</h3>
-          <p className="text-gray-400 mb-4">
+          <h3 className="text-lg font-semibold text-dark-walnut mb-4">Apply via Cold Email</h3>
+          <p className="text-gray-600 mb-4">
             Send a personalized email to the recruiter to express your interest.
           </p>
           <a

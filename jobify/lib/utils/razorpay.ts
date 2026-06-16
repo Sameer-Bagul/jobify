@@ -57,12 +57,19 @@ export async function createOrder(options: OrderOptions): Promise<CreateOrderRes
       success: true,
       order,
     };
-  } catch (err: unknown) {
-    const error = err as Error;
-    console.error("Razorpay order creation error:", error);
+  } catch (err: any) {
+    console.error("Razorpay order creation error:", err);
+    
+    let errorMessage = "Failed to create order";
+    if (err?.error?.description) {
+      errorMessage = err.error.description;
+    } else if (err?.message) {
+      errorMessage = err.message;
+    }
+
     return {
       success: false,
-      error: error.message || "Failed to create order",
+      error: errorMessage,
     };
   }
 }

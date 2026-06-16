@@ -10,18 +10,18 @@ export default function FAQ() {
         },
         {
             question: "Can I use Jobify as a recruiter?",
-            answer: "Absolutely. Recruiters can post jobs, manage candidates, and use our AI to find the best talent match for their open roles."
+            answer: "Absolutely. Recruiters can post jobs, manage candidates, and use our smart-matching to find the best talent match for their open roles."
         }
     ];
 
     return (
         <section className="pb-24 max-w-3xl mx-auto px-6">
-            <h2 className="text-3xl font-bold text-center mb-12 font-outfit text-white">Frequently Asked Questions</h2>
+            <h2 className="text-3xl font-bold text-center mb-12 font-outfit text-dark-walnut">Frequently Asked Questions</h2>
             <div className="space-y-4">
                 {faqs.map((faq, idx) => (
                     <div key={idx} className="card glass-card">
-                        <h4 className="text-lg font-bold text-white mb-2">{faq.question}</h4>
-                        <p className="text-gray-400 text-sm leading-relaxed">{faq.answer}</p>
+                        <h4 className="text-lg font-bold text-dark-walnut mb-2">{faq.question}</h4>
+                        <p className="text-gray-600 text-sm leading-relaxed">{faq.answer}</p>
                     </div>
                 ))}
             </div>

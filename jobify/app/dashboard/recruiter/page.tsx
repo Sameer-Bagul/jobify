@@ -38,19 +38,19 @@ export default function RecruiterDashboard() {
     <Layout>
       <div className="max-w-6xl mx-auto">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-white mb-2">Recruiter Dashboard</h1>
-          <p className="text-gray-400">Manage your job postings and candidates</p>
+          <h1 className="text-3xl font-bold text-dark-walnut mb-2">Recruiter Dashboard</h1>
+          <p className="text-gray-600">Manage your job postings and candidates</p>
         </div>
 
         <div className="grid md:grid-cols-4 gap-6 mb-8">
           <div className="card">
             <div className="flex items-center gap-4">
-              <div className="w-12 h-12 rounded-xl bg-purple-600/20 flex items-center justify-center">
-                <Briefcase className="h-6 w-6 text-purple-400" />
+              <div className="w-12 h-12 rounded-xl bg-white flex items-center justify-center">
+                <Briefcase className="h-6 w-6 text-tangerine-dream" />
               </div>
               <div>
-                <p className="text-2xl font-bold text-white">{loading ? '-' : stats?.totalJobs || 0}</p>
-                <p className="text-sm text-gray-400">Total Jobs</p>
+                <p className="text-2xl font-bold text-dark-walnut">{loading ? '-' : stats?.totalJobs || 0}</p>
+                <p className="text-sm text-gray-600">Total Jobs</p>
               </div>
             </div>
           </div>
@@ -61,32 +61,32 @@ export default function RecruiterDashboard() {
                 <TrendingUp className="h-6 w-6 text-green-400" />
               </div>
               <div>
-                <p className="text-2xl font-bold text-white">{loading ? '-' : stats?.activeJobs || 0}</p>
-                <p className="text-sm text-gray-400">Active Jobs</p>
+                <p className="text-2xl font-bold text-dark-walnut">{loading ? '-' : stats?.activeJobs || 0}</p>
+                <p className="text-sm text-gray-600">Active Jobs</p>
               </div>
             </div>
           </div>
 
           <div className="card">
             <div className="flex items-center gap-4">
-              <div className="w-12 h-12 rounded-xl bg-blue-600/20 flex items-center justify-center">
-                <Users className="h-6 w-6 text-blue-400" />
+              <div className="w-12 h-12 rounded-xl bg-white flex items-center justify-center">
+                <Users className="h-6 w-6 text-tangerine-dream" />
               </div>
               <div>
-                <p className="text-2xl font-bold text-white">{loading ? '-' : stats?.totalCandidates || 0}</p>
-                <p className="text-sm text-gray-400">Candidates</p>
+                <p className="text-2xl font-bold text-dark-walnut">{loading ? '-' : stats?.totalCandidates || 0}</p>
+                <p className="text-sm text-gray-600">Candidates</p>
               </div>
             </div>
           </div>
 
           <div className="card">
             <div className="flex items-center gap-4">
-              <div className="w-12 h-12 rounded-xl bg-pink-600/20 flex items-center justify-center">
-                <Clock className="h-6 w-6 text-pink-400" />
+              <div className="w-12 h-12 rounded-xl bg-white flex items-center justify-center">
+                <Clock className="h-6 w-6 text-tangerine-dream" />
               </div>
               <div>
-                <p className="text-2xl font-bold text-white">24h</p>
-                <p className="text-sm text-gray-400">Avg Response</p>
+                <p className="text-2xl font-bold text-dark-walnut">24h</p>
+                <p className="text-sm text-gray-600">Avg Response</p>
               </div>
             </div>
           </div>
@@ -94,42 +94,42 @@ export default function RecruiterDashboard() {
 
         <div className="grid md:grid-cols-2 gap-6">
           <div className="card">
-            <h2 className="text-xl font-semibold text-white mb-4">Quick Actions</h2>
+            <h2 className="text-xl font-semibold text-dark-walnut mb-4">Quick Actions</h2>
             <div className="space-y-3">
               <a
                 href="/dashboard/recruiter/post-job"
-                className="flex items-center gap-3 p-4 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors"
+                className="flex items-center gap-3 p-4 rounded-lg bg-gray-200 hover:bg-dark-600 transition-colors"
               >
-                <Briefcase className="h-5 w-5 text-purple-400" />
-                <span className="text-white">Post New Job</span>
+                <Briefcase className="h-5 w-5 text-tangerine-dream" />
+                <span className="text-dark-walnut">Post New Job</span>
               </a>
               <a
                 href="/dashboard/recruiter/candidates"
-                className="flex items-center gap-3 p-4 rounded-lg bg-dark-700 hover:bg-dark-600 transition-colors"
+                className="flex items-center gap-3 p-4 rounded-lg bg-gray-200 hover:bg-dark-600 transition-colors"
               >
-                <Users className="h-5 w-5 text-blue-400" />
-                <span className="text-white">View Candidates</span>
+                <Users className="h-5 w-5 text-tangerine-dream" />
+                <span className="text-dark-walnut">View Candidates</span>
               </a>
             </div>
           </div>
 
           <div className="card">
-            <h2 className="text-xl font-semibold text-white mb-4">Hiring Tips</h2>
-            <ul className="space-y-3 text-gray-400">
+            <h2 className="text-xl font-semibold text-dark-walnut mb-4">Hiring Tips</h2>
+            <ul className="space-y-3 text-gray-600">
               <li className="flex items-start gap-2">
-                <span className="text-purple-400">•</span>
+                <span className="text-tangerine-dream">•</span>
                 Write clear job descriptions with specific requirements
               </li>
               <li className="flex items-start gap-2">
-                <span className="text-purple-400">•</span>
+                <span className="text-tangerine-dream">•</span>
                 Respond to candidates within 48 hours
               </li>
               <li className="flex items-start gap-2">
-                <span className="text-purple-400">•</span>
+                <span className="text-tangerine-dream">•</span>
                 Use skill-based matching to find top candidates
               </li>
               <li className="flex items-start gap-2">
-                <span className="text-purple-400">•</span>
+                <span className="text-tangerine-dream">•</span>
                 Keep your company profile updated
               </li>
             </ul>

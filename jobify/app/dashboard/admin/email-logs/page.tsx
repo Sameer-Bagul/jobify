@@ -49,7 +49,7 @@ export default function AdminEmailLogs() {
       case 'pending':
         return <Clock className="h-4 w-4 text-yellow-400" />;
       default:
-        return <Mail className="h-4 w-4 text-gray-400" />;
+        return <Mail className="h-4 w-4 text-gray-600" />;
     }
   };
 
@@ -62,7 +62,7 @@ export default function AdminEmailLogs() {
       case 'pending':
         return 'bg-yellow-600/20 text-yellow-400';
       default:
-        return 'bg-gray-600/20 text-gray-400';
+        return 'bg-gray-600/20 text-gray-600';
     }
   };
 
@@ -80,10 +80,10 @@ export default function AdminEmailLogs() {
       <div className="max-w-7xl mx-auto">
         <div className="flex items-center justify-between mb-8">
           <div>
-            <h1 className="text-3xl font-bold text-white mb-2">Email Logs</h1>
-            <p className="text-gray-400">View all sent emails</p>
+            <h1 className="text-3xl font-bold text-dark-walnut mb-2">Email Logs</h1>
+            <p className="text-gray-600">View all sent emails</p>
           </div>
-          <div className="flex items-center gap-2 text-gray-400">
+          <div className="flex items-center gap-2 text-gray-600">
             <Mail className="h-5 w-5" />
             <span>{logs.length} total emails</span>
           </div>
@@ -116,37 +116,37 @@ export default function AdminEmailLogs() {
 
         {loading ? (
           <div className="flex justify-center py-12">
-            <Loader2 className="h-8 w-8 animate-spin text-purple-400" />
+            <Loader2 className="h-8 w-8 animate-spin text-tangerine-dream" />
           </div>
         ) : (
           <div className="card overflow-hidden">
             <div className="overflow-x-auto">
               <table className="w-full">
                 <thead>
-                  <tr className="border-b border-white/5">
-                    <th className="text-left text-sm font-medium text-gray-400 p-4">Sender</th>
-                    <th className="text-left text-sm font-medium text-gray-400 p-4">Recipient</th>
-                    <th className="text-left text-sm font-medium text-gray-400 p-4">Subject</th>
-                    <th className="text-left text-sm font-medium text-gray-400 p-4">Status</th>
-                    <th className="text-left text-sm font-medium text-gray-400 p-4">Sent At</th>
+                  <tr className="border-b border-gray-200">
+                    <th className="text-left text-sm font-medium text-gray-600 p-4">Sender</th>
+                    <th className="text-left text-sm font-medium text-gray-600 p-4">Recipient</th>
+                    <th className="text-left text-sm font-medium text-gray-600 p-4">Subject</th>
+                    <th className="text-left text-sm font-medium text-gray-600 p-4">Status</th>
+                    <th className="text-left text-sm font-medium text-gray-600 p-4">Sent At</th>
                   </tr>
                 </thead>
                 <tbody>
                   {filteredLogs.map((log) => (
-                    <tr key={log._id} className="border-b border-white/5 hover:bg-dark-700/50">
+                    <tr key={log._id} className="border-b border-gray-200 hover:bg-gray-200/50">
                       <td className="p-4">
                         <div className="flex items-center gap-3">
-                          <div className="w-8 h-8 rounded-full bg-purple-600/20 flex items-center justify-center">
-                            <User className="h-4 w-4 text-purple-400" />
+                          <div className="w-8 h-8 rounded-full bg-white flex items-center justify-center">
+                            <User className="h-4 w-4 text-tangerine-dream" />
                           </div>
-                          <span className="text-white">{log.userId?.name || 'Unknown'}</span>
+                          <span className="text-dark-walnut">{log.userId?.name || 'Unknown'}</span>
                         </div>
                       </td>
                       <td className="p-4">
-                        <span className="text-gray-300">{log.recipientEmail}</span>
+                        <span className="text-gray-700">{log.recipientEmail}</span>
                       </td>
                       <td className="p-4">
-                        <span className="text-gray-300 truncate max-w-xs block">{log.subject}</span>
+                        <span className="text-gray-700 truncate max-w-xs block">{log.subject}</span>
                       </td>
                       <td className="p-4">
                         <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium ${getStatusColor(log.status)}`}>
@@ -155,7 +155,7 @@ export default function AdminEmailLogs() {
                         </span>
                       </td>
                       <td className="p-4">
-                        <span className="text-gray-400 text-sm flex items-center gap-1">
+                        <span className="text-gray-600 text-sm flex items-center gap-1">
                           <Calendar className="h-3 w-3" />
                           {new Date(log.sentAt).toLocaleString()}
                         </span>
@@ -169,7 +169,7 @@ export default function AdminEmailLogs() {
             {filteredLogs.length === 0 && (
               <div className="text-center py-12">
                 <Mail className="h-12 w-12 text-gray-600 mx-auto mb-4" />
-                <p className="text-gray-400">No email logs found</p>
+                <p className="text-gray-600">No email logs found</p>
               </div>
             )}
           </div>

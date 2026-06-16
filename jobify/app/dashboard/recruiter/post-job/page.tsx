@@ -62,15 +62,15 @@ export default function PostJob() {
       <div className="max-w-2xl mx-auto">
         <button
           onClick={() => router.back()}
-          className="flex items-center gap-2 text-gray-400 hover:text-white transition-colors mb-6"
+          className="flex items-center gap-2 text-gray-600 hover:text-dark-walnut transition-colors mb-6"
         >
           <ArrowLeft className="h-5 w-5" />
           Back
         </button>
 
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-white mb-2">Post a Job</h1>
-          <p className="text-gray-400">Fill in the details to create a new job posting</p>
+          <h1 className="text-3xl font-bold text-dark-walnut mb-2">Post a Job</h1>
+          <p className="text-gray-600">Fill in the details to create a new job posting</p>
         </div>
 
         <form onSubmit={handleSubmit} className="card space-y-6">
@@ -81,7 +81,7 @@ export default function PostJob() {
           )}
 
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-2">Job Title</label>
+            <label className="block text-sm font-medium text-gray-700 mb-2">Job Title</label>
             <input
               type="text"
               value={formData.title}
@@ -94,7 +94,7 @@ export default function PostJob() {
 
           <div className="grid md:grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">Company</label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Company</label>
               <input
                 type="text"
                 value={formData.company}
@@ -105,7 +105,7 @@ export default function PostJob() {
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">Location</label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Location</label>
               <input
                 type="text"
                 value={formData.location}
@@ -118,7 +118,7 @@ export default function PostJob() {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-2">Job Description</label>
+            <label className="block text-sm font-medium text-gray-700 mb-2">Job Description</label>
             <textarea
               value={formData.description}
               onChange={(e) => setFormData({ ...formData, description: e.target.value })}
@@ -130,7 +130,7 @@ export default function PostJob() {
 
           <div className="grid md:grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">Salary Min</label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Salary Min</label>
               <input
                 type="number"
                 value={formData.salaryMin}
@@ -141,7 +141,7 @@ export default function PostJob() {
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">Salary Max</label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Salary Max</label>
               <input
                 type="number"
                 value={formData.salaryMax}
@@ -155,7 +155,7 @@ export default function PostJob() {
 
           <div className="grid md:grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">Job Type</label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Job Type</label>
               <select
                 value={formData.jobType}
                 onChange={(e) => setFormData({ ...formData, jobType: e.target.value })}
@@ -168,7 +168,7 @@ export default function PostJob() {
               </select>
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">Experience Level</label>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Experience Level</label>
               <select
                 value={formData.experienceLevel}
                 onChange={(e) => setFormData({ ...formData, experienceLevel: e.target.value })}
@@ -183,7 +183,7 @@ export default function PostJob() {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-2">Required Skills</label>
+            <label className="block text-sm font-medium text-gray-700 mb-2">Required Skills</label>
             <div className="flex gap-2 mb-2">
               <input
                 type="text"
@@ -201,7 +201,7 @@ export default function PostJob() {
               {formData.requiredSkills.map((skill) => (
                 <span
                   key={skill}
-                  className="inline-flex items-center gap-1 px-3 py-1 bg-purple-500/20 text-purple-300 rounded-full text-sm"
+                  className="inline-flex items-center gap-1 px-3 py-1 bg-white text-tangerine-dream rounded-full text-sm"
                 >
                   {skill}
                   <button type="button" onClick={() => removeSkill(skill)}>
@@ -213,7 +213,7 @@ export default function PostJob() {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-300 mb-2">Recruiter Email</label>
+            <label className="block text-sm font-medium text-gray-700 mb-2">Recruiter Email</label>
             <input
               type="email"
               value={formData.recruiterEmail}

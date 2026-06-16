@@ -42,4 +42,4 @@ const savedItemSchema = new Schema<ISavedItem>({
 savedItemSchema.index({ userId: 1, itemType: 1 });
 savedItemSchema.index({ userId: 1, itemId: 1 }, { unique: true });
 
-export default mongoose.model<ISavedItem>("SavedItem", savedItemSchema);
+export default mongoose.models.SavedItem || mongoose.model<ISavedItem>("SavedItem", savedItemSchema);

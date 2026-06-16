@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import Layout from '@/components/Layout';
-import { CreditCard, Check, Sparkles, Crown, Loader2, Mail, Zap, Star } from 'lucide-react';
+import { CreditCard, Check, Target, Crown, Loader2, Mail, Zap, Star } from 'lucide-react';
 import api from '@/lib/api';
 
 interface PlanData {
@@ -56,8 +56,8 @@ interface RazorpayResponse {
 }
 
 const PLAN_ICONS: Record<string, React.ReactNode> = {
-  pro: <Zap className="h-8 w-8 text-purple-400" />,
-  pro_plus: <Crown className="h-8 w-8 text-purple-400" />,
+  pro: <Zap className="h-8 w-8 text-tangerine-dream" />,
+  pro_plus: <Crown className="h-8 w-8 text-tangerine-dream" />,
   pro_max: <Star className="h-8 w-8 text-yellow-400" />,
 };
 
@@ -152,37 +152,37 @@ export default function Subscription() {
     <Layout>
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-12">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-purple-600/10 border border-purple-500/20 text-purple-400 text-sm mb-6">
-            <Sparkles className="h-4 w-4" />
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-cayenne-red/10 border border-tangerine-dream/20 text-tangerine-dream text-sm mb-6">
+            <Target className="h-4 w-4" />
             Upgrade your job search
           </div>
-          <h1 className="text-4xl font-bold text-white mb-4">Choose Your Plan</h1>
-          <p className="text-xl text-gray-400 max-w-2xl mx-auto">
+          <h1 className="text-4xl font-bold text-dark-walnut mb-4">Choose Your Plan</h1>
+          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
             Unlock powerful features to supercharge your job search and stand out from the crowd
           </p>
         </div>
 
         {loading ? (
           <div className="flex justify-center py-12">
-            <Loader2 className="h-8 w-8 animate-spin text-purple-400" />
+            <Loader2 className="h-8 w-8 animate-spin text-tangerine-dream" />
           </div>
         ) : (
           <>
             {status?.isSubscribed && status.subscription && (
-              <div className="mb-8 p-6 card bg-gradient-to-r from-purple-600/10 to-blue-600/10 border-purple-500/20">
+              <div className="mb-8 p-6 card bg-gradient-to-r from-cayenne-red/10 to-tangerine-dream/10 border-tangerine-dream/20">
                 <div className="flex items-center justify-between">
                   <div>
-                    <h3 className="text-lg font-semibold text-white mb-1">
+                    <h3 className="text-lg font-semibold text-dark-walnut mb-1">
                       You&apos;re Subscribed!
                     </h3>
-                    <p className="text-gray-400">
-                      Current Plan: <span className="text-purple-400 font-medium">{status.subscription.planName}</span>
+                    <p className="text-gray-600">
+                      Current Plan: <span className="text-tangerine-dream font-medium">{status.subscription.planName}</span>
                     </p>
                     <p className="text-sm text-gray-500 mt-1">
                       {status.subscription.daysRemaining} days remaining • {status.subscription.dailyEmailLimit} emails/day • Expires: {new Date(status.subscription.endDate).toLocaleDateString()}
                     </p>
                   </div>
-                  <Crown className="h-10 w-10 text-purple-400" />
+                  <Crown className="h-10 w-10 text-tangerine-dream" />
                 </div>
               </div>
             )}
@@ -203,40 +203,40 @@ export default function Subscription() {
                     key={plan.tier}
                     className={`card relative ${
                       isRecommended
-                        ? 'border-purple-500/50 ring-2 ring-purple-500/20 bg-gradient-to-b from-purple-600/10 to-transparent'
+                        ? 'border-gray-300 ring-2 ring-purple-500/20 bg-gradient-to-b from-cayenne-red/10 to-transparent'
                         : 'border-dark-600'
                     } ${isCurrent ? 'ring-2 ring-green-500/30' : ''}`}
                   >
                     {isRecommended && (
-                      <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1 bg-gradient-to-r from-purple-600 to-blue-600 rounded-full text-xs font-medium text-white">
+                      <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1 bg-gradient-to-r from-cayenne-red to-tangerine-dream rounded-full text-xs font-medium text-dark-walnut">
                         Recommended
                       </div>
                     )}
                     {isCurrent && (
-                      <div className="absolute -top-3 right-4 px-3 py-1 bg-green-600 rounded-full text-xs font-medium text-white">
+                      <div className="absolute -top-3 right-4 px-3 py-1 bg-green-600 rounded-full text-xs font-medium text-dark-walnut">
                         Current Plan
                       </div>
                     )}
 
                     <div className="text-center mb-6 pt-2">
-                      <div className={`w-16 h-16 rounded-xl ${isRecommended ? 'bg-purple-600/20' : 'bg-dark-700/50'} flex items-center justify-center mx-auto mb-4`}>
-                        {PLAN_ICONS[plan.tier] || <Zap className="h-8 w-8 text-purple-400" />}
+                      <div className={`w-16 h-16 rounded-xl ${isRecommended ? 'bg-white' : 'bg-gray-200/50'} flex items-center justify-center mx-auto mb-4`}>
+                        {PLAN_ICONS[plan.tier] || <Zap className="h-8 w-8 text-tangerine-dream" />}
                       </div>
-                      <h3 className="text-2xl font-bold text-white mb-2">{plan.name}</h3>
+                      <h3 className="text-2xl font-bold text-dark-walnut mb-2">{plan.name}</h3>
                       <div className="flex items-end justify-center gap-1">
-                        <span className="text-4xl font-bold text-white">₹{plan.price}</span>
-                        <span className="text-gray-400 mb-1">/month</span>
+                        <span className="text-4xl font-bold text-dark-walnut">₹{plan.price}</span>
+                        <span className="text-gray-600 mb-1">/month</span>
                       </div>
                     </div>
 
-                    <div className="flex items-center gap-3 p-3 bg-dark-700/50 rounded-lg mb-6">
-                      <Mail className="h-5 w-5 text-purple-400 flex-shrink-0" />
-                      <span className="text-gray-300">{plan.dailyEmailLimit} Emails/Day</span>
+                    <div className="flex items-center gap-3 p-3 bg-gray-200/50 rounded-lg mb-6">
+                      <Mail className="h-5 w-5 text-tangerine-dream flex-shrink-0" />
+                      <span className="text-gray-700">{plan.dailyEmailLimit} Emails/Day</span>
                     </div>
 
                     <ul className="space-y-3 mb-8">
                       {plan.features.map((feature, i) => (
-                        <li key={i} className="flex items-start gap-3 text-gray-300">
+                        <li key={i} className="flex items-start gap-3 text-gray-700">
                           <Check className="h-5 w-5 text-green-400 flex-shrink-0 mt-0.5" />
                           <span className="text-sm">{feature}</span>
                         </li>
@@ -248,10 +248,10 @@ export default function Subscription() {
                       disabled={status?.isSubscribed || purchasingTier !== null}
                       className={`w-full py-3 rounded-lg font-medium transition-all flex items-center justify-center gap-2 ${
                         status?.isSubscribed
-                          ? 'bg-dark-700 text-gray-500 cursor-not-allowed'
+                          ? 'bg-gray-200 text-gray-500 cursor-not-allowed'
                           : isRecommended
                           ? 'btn-primary'
-                          : 'bg-dark-700 hover:bg-dark-600 text-white border border-dark-600'
+                          : 'bg-gray-200 hover:bg-dark-600 text-dark-walnut border border-dark-600'
                       }`}
                     >
                       {purchasingTier === plan.tier ? (
@@ -271,7 +271,7 @@ export default function Subscription() {
             </div>
 
             <div className="mt-8 text-center">
-              <p className="text-gray-400">
+              <p className="text-gray-600">
                 Secure payment processing via Razorpay.
                 <br />
                 Cancel anytime. No hidden fees.

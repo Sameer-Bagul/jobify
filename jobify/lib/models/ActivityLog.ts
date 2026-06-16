@@ -46,4 +46,4 @@ const activityLogSchema = new Schema<IActivityLog>({
 activityLogSchema.index({ userId: 1, timestamp: -1 });
 activityLogSchema.index({ actionType: 1 });
 
-export default mongoose.model<IActivityLog>("ActivityLog", activityLogSchema);
+export default mongoose.models.ActivityLog || mongoose.model<IActivityLog>("ActivityLog", activityLogSchema);
