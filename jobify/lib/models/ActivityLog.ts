@@ -4,7 +4,7 @@ export interface IActivityLog extends Document {
   userId: mongoose.Types.ObjectId;
   action: string;
   actionType: "email_sent" | "job_viewed" | "job_saved" | "recruiter_saved" | "profile_updated" | "subscription_changed" | "login" | "other";
-  details: Record<string, any>;
+  details: Record<string, unknown>;
   ipAddress: string;
   userAgent: string;
   timestamp: Date;

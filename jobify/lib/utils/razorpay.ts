@@ -32,7 +32,7 @@ export interface OrderOptions {
 
 export interface CreateOrderResult {
   success: boolean;
-  order?: any;
+  order?: unknown;
   error?: string;
 }
 
@@ -57,7 +57,8 @@ export async function createOrder(options: OrderOptions): Promise<CreateOrderRes
       success: true,
       order,
     };
-  } catch (error: any) {
+  } catch (err: unknown) {
+    const error = err as Error;
     console.error("Razorpay order creation error:", error);
     return {
       success: false,
@@ -101,7 +102,8 @@ export async function fetchPayment(paymentId: string) {
     
     const payment = await razorpay.payments.fetch(paymentId);
     return { success: true, payment };
-  } catch (error: any) {
+  } catch (err: unknown) {
+    const error = err as Error;
     return { success: false, error: error.message };
   }
 }
@@ -117,7 +119,8 @@ export async function refundPayment(paymentId: string, amount?: number) {
       amount: amount ? amount * 100 : undefined,
     });
     return { success: true, refund };
-  } catch (error: any) {
+  } catch (err: unknown) {
+    const error = err as Error;
     return { success: false, error: error.message };
   }
 }

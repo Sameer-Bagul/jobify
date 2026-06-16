@@ -17,7 +17,7 @@ export default function CTA() {
                             Get Started for Free
                         </Link>
                         <Link href="/login" className="text-white font-bold hover:text-purple-400 transition-colors underline decoration-purple-500 decoration-2 underline-offset-8">
-                            I'm hiring talent instead
+                            I&apos;m hiring talent instead
                         </Link>
                     </div>
                 </div>

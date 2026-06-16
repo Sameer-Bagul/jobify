@@ -21,7 +21,7 @@ export function getAuthUser(req: NextRequest): AuthPayload | null {
 
   try {
     return jwt.verify(token, env.jwtSecret) as AuthPayload;
-  } catch (error) {
+  } catch {
     return null;
   }
 }
@@ -42,11 +42,12 @@ export function requireRole(req: NextRequest, role: string) {
   return user;
 }
 
-export function handleAuthError(error: any) {
-  if (error.message === "UNAUTHORIZED") {
+export function handleAuthError(error: unknown) {
+  const err = error as Error;
+  if (err.message === "UNAUTHORIZED") {
     return NextResponse.json({ error: "Access token required or invalid" }, { status: 401 });
   }
-  if (error.message === "FORBIDDEN") {
+  if (err.message === "FORBIDDEN") {
     return NextResponse.json({ error: "Access denied. Insufficient role." }, { status: 403 });
   }
   return NextResponse.json({ error: "Internal server error" }, { status: 500 });

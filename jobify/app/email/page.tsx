@@ -5,12 +5,14 @@ import { Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Layout from '@/components/Layout';
 import { 
-  Send, Loader2, CheckCircle, AlertCircle, Clock, Mail, 
-  Settings, Users, Search, Building2, MapPin,
-  Eye, EyeOff, Save, RefreshCw, UserPlus, Crown, Zap,
-  TrendingUp, XCircle, Filter
+  Send, Loader2, CheckCircle, AlertCircle, Mail, 
+  Users, Search, Building2, MapPin,
+  Save, RefreshCw, UserPlus, Filter
 } from 'lucide-react';
 import api, { emailApi, userApi } from '@/lib/api';
+import GmailConfiguration from '@/components/email/GmailConfiguration';
+import EmailStatistics from '@/components/email/EmailStatistics';
+import RecentEmailLogs from '@/components/email/RecentEmailLogs';
 
 interface EmailStats {
   dailySent: number;
@@ -90,25 +92,7 @@ function EmailContent() {
   const jobTitle = searchParams.get('job');
   const company = searchParams.get('company');
 
-  useEffect(() => {
-    if (jobTitle && company) {
-      setSubject(`Application for ${jobTitle} position at ${company}`);
-      setBody(`Dear Hiring Manager,
 
-I am writing to express my interest in the ${jobTitle} position at ${company}. I believe my skills and experience make me a strong candidate for this role.
-
-I would welcome the opportunity to discuss how I can contribute to your team.
-
-Best regards`);
-    }
-  }, [jobTitle, company]);
-
-  useEffect(() => {
-    fetchStats();
-    fetchRecruiters();
-    fetchLogs();
-    fetchUserGmail();
-  }, []);
 
   const fetchStats = async () => {
     try {
@@ -151,6 +135,26 @@ Best regards`);
       console.error('Failed to fetch user data:', err);
     }
   };
+
+  useEffect(() => {
+    if (jobTitle && company) {
+      setSubject(`Application for ${jobTitle} position at ${company}`);
+      setBody(`Dear Hiring Manager,
+
+I am writing to express my interest in the ${jobTitle} position at ${company}. I believe my skills and experience make me a strong candidate for this role.
+
+I would welcome the opportunity to discuss how I can contribute to your team.
+
+Best regards`);
+    }
+  }, [jobTitle, company]);
+
+  useEffect(() => {
+    fetchStats();
+    fetchRecruiters();
+    fetchLogs();
+    fetchUserGmail();
+  }, []);
 
   const handleSaveGmail = async () => {
     setSavingGmail(true);
@@ -243,24 +247,6 @@ Best regards`);
     }
   };
 
-  const getStatusIcon = (status: string) => {
-    switch (status) {
-      case 'sent':
-        return <CheckCircle className="h-4 w-4 text-green-400" />;
-      case 'failed':
-        return <XCircle className="h-4 w-4 text-red-400" />;
-      default:
-        return <Clock className="h-4 w-4 text-yellow-400" />;
-    }
-  };
-
-  const successRate = stats.totalSent + stats.totalFailed > 0
-    ? Math.round((stats.totalSent / (stats.totalSent + stats.totalFailed)) * 100)
-    : 0;
-
-  const dailyUsagePercent = stats.dailyLimit > 0 
-    ? Math.round((stats.dailySent / stats.dailyLimit) * 100) 
-    : 0;
 
   return (
     <Layout>
@@ -275,133 +261,19 @@ Best regards`);
           </p>
         </div>
 
-        <div className="card border border-dark-600">
-          <div className="flex items-center gap-3 mb-4">
-            <div className="p-2 bg-purple-500/20 rounded-lg">
-              <Settings className="h-5 w-5 text-purple-400" />
-            </div>
-            <div>
-              <h2 className="text-lg font-semibold text-white">Gmail Configuration</h2>
-              <p className="text-sm text-gray-400">Configure your Gmail account to send cold emails</p>
-            </div>
-            {stats.hasGmailSetup && (
-              <span className="ml-auto px-3 py-1 bg-green-500/20 text-green-400 text-sm rounded-full flex items-center gap-1">
-                <CheckCircle className="h-4 w-4" />
-                Configured
-              </span>
-            )}
-          </div>
-          
-          {gmailSuccess && (
-            <div className="mb-4 p-3 bg-green-500/10 border border-green-500/20 rounded-lg text-green-400 text-sm flex items-center gap-2">
-              <CheckCircle className="h-4 w-4" />
-              {gmailSuccess}
-            </div>
-          )}
-          
-          {gmailError && (
-            <div className="mb-4 p-3 bg-red-500/10 border border-red-500/20 rounded-lg text-red-400 text-sm flex items-center gap-2">
-              <AlertCircle className="h-4 w-4" />
-              {gmailError}
-            </div>
-          )}
-          
-          <div className="grid md:grid-cols-2 gap-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">Gmail ID</label>
-              <input
-                type="email"
-                value={gmailId}
-                onChange={(e) => setGmailId(e.target.value)}
-                className="input-dark"
-                placeholder="your-email@gmail.com"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-300 mb-2">App Password</label>
-              <div className="relative">
-                <input
-                  type={showPassword ? 'text' : 'password'}
-                  value={gmailAppPassword}
-                  onChange={(e) => setGmailAppPassword(e.target.value)}
-                  className="input-dark pr-10"
-                  placeholder="Enter your app password"
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white"
-                >
-                  {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
-                </button>
-              </div>
-              <p className="text-xs text-gray-500 mt-1">
-                Generate an app password from Google Account → Security → 2-Step Verification → App passwords
-              </p>
-            </div>
-          </div>
-          
-          <button
-            onClick={handleSaveGmail}
-            disabled={savingGmail || !gmailId || !gmailAppPassword}
-            className="mt-4 btn-primary flex items-center gap-2"
-          >
-            {savingGmail ? (
-              <Loader2 className="h-4 w-4 animate-spin" />
-            ) : (
-              <Save className="h-4 w-4" />
-            )}
-            Save Gmail Credentials
-          </button>
-        </div>
+        <GmailConfiguration 
+          hasGmailSetup={stats.hasGmailSetup}
+          gmailId={gmailId}
+          setGmailId={setGmailId}
+          gmailAppPassword={gmailAppPassword}
+          setGmailAppPassword={setGmailAppPassword}
+          savingGmail={savingGmail}
+          gmailSuccess={gmailSuccess}
+          gmailError={gmailError}
+          handleSaveGmail={handleSaveGmail}
+        />
 
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-          <div className="card border border-dark-600">
-            <div className="flex items-center justify-between mb-2">
-              <span className="text-gray-400 text-sm">Daily Usage</span>
-              <Zap className="h-4 w-4 text-yellow-400" />
-            </div>
-            <div className="text-2xl font-bold text-white">
-              {stats.dailySent} / {stats.dailyLimit}
-            </div>
-            <div className="mt-2 h-2 bg-dark-700 rounded-full overflow-hidden">
-              <div 
-                className="h-full bg-gradient-to-r from-purple-500 to-pink-500 rounded-full transition-all"
-                style={{ width: `${Math.min(dailyUsagePercent, 100)}%` }}
-              />
-            </div>
-            <p className="text-xs text-gray-500 mt-1">{stats.remaining} remaining today</p>
-          </div>
-
-          <div className="card border border-dark-600">
-            <div className="flex items-center justify-between mb-2">
-              <span className="text-gray-400 text-sm">Total Sent</span>
-              <Send className="h-4 w-4 text-green-400" />
-            </div>
-            <div className="text-2xl font-bold text-white">{stats.totalSent}</div>
-            <p className="text-xs text-gray-500 mt-1">All time emails</p>
-          </div>
-
-          <div className="card border border-dark-600">
-            <div className="flex items-center justify-between mb-2">
-              <span className="text-gray-400 text-sm">Success Rate</span>
-              <TrendingUp className="h-4 w-4 text-blue-400" />
-            </div>
-            <div className="text-2xl font-bold text-white">{successRate}%</div>
-            <p className="text-xs text-gray-500 mt-1">
-              {stats.totalFailed} failed
-            </p>
-          </div>
-
-          <div className="card border border-dark-600">
-            <div className="flex items-center justify-between mb-2">
-              <span className="text-gray-400 text-sm">Current Plan</span>
-              <Crown className="h-4 w-4 text-purple-400" />
-            </div>
-            <div className="text-2xl font-bold text-white capitalize">{stats.planName}</div>
-            <p className="text-xs text-gray-500 mt-1 capitalize">{stats.planTier} tier</p>
-          </div>
-        </div>
+        <EmailStatistics stats={stats} />
 
         <div className="grid lg:grid-cols-3 gap-6">
           <div className="lg:col-span-2 card border border-dark-600">
@@ -684,37 +556,14 @@ Best regards`);
 
               {stats.remaining <= 0 && (
                 <p className="text-center text-sm text-red-400">
-                  You've reached your daily email limit. Upgrade your plan for more.
+                  You&apos;ve reached your daily email limit. Upgrade your plan for more.
                 </p>
               )}
             </form>
           </div>
         </div>
 
-        <div className="card border border-dark-600">
-          <h2 className="text-xl font-semibold text-white mb-4">Recent Emails</h2>
-          
-          {logs.length === 0 ? (
-            <p className="text-gray-400 text-center py-8">No emails sent yet</p>
-          ) : (
-            <div className="space-y-3">
-              {logs.slice(0, 10).map((log) => (
-                <div key={log._id} className="p-3 bg-dark-700 rounded-lg">
-                  <div className="flex items-center justify-between mb-1">
-                    <span className="text-white text-sm font-medium truncate">
-                      {log.recipientEmail}
-                    </span>
-                    {getStatusIcon(log.status)}
-                  </div>
-                  <p className="text-gray-400 text-sm truncate">{log.subject}</p>
-                  <p className="text-gray-500 text-xs mt-1">
-                    {new Date(log.createdAt).toLocaleDateString()}
-                  </p>
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
+        <RecentEmailLogs logs={logs} />
       </div>
     </Layout>
   );

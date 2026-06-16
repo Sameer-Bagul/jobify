@@ -57,7 +57,8 @@ export async function sendEmail(options: EmailOptions): Promise<EmailResult> {
       success: true,
       messageId: info.messageId,
     };
-  } catch (error: any) {
+  } catch (err: unknown) {
+    const error = err as Error;
     console.error("Email sending error:", error);
     return {
       success: false,
@@ -128,7 +129,8 @@ export async function sendOTPEmail(
       success: true,
       messageId: info.messageId,
     };
-  } catch (error: any) {
+  } catch (err: unknown) {
+    const error = err as Error;
     console.error("OTP email error:", error);
     return {
       success: false,

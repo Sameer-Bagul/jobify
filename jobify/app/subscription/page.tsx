@@ -68,11 +68,6 @@ export default function Subscription() {
   const [purchasingTier, setPurchasingTier] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    fetchData();
-    loadRazorpayScript();
-  }, []);
-
   const loadRazorpayScript = () => {
     if (document.querySelector('script[src*="razorpay"]')) return;
     const script = document.createElement('script');
@@ -95,6 +90,12 @@ export default function Subscription() {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    fetchData();
+    loadRazorpayScript();
+  }, []);
+
 
   const handleSubscribe = async (planTier: string, planName: string) => {
     setPurchasingTier(planTier);
@@ -134,9 +135,10 @@ export default function Subscription() {
 
       const razorpay = new window.Razorpay(options);
       razorpay.open();
-    } catch (err: any) {
-      console.error('Failed to create order:', err);
-      setError(err.response?.data?.error || 'Failed to initiate payment. Please try again.');
+    } catch (err: unknown) {
+      const error = err as Error & { response?: { data?: { error?: string } } };
+      console.error('Failed to create order:', error);
+      setError(error.response?.data?.error || 'Failed to initiate payment. Please try again.');
     } finally {
       setPurchasingTier(null);
     }
@@ -171,7 +173,7 @@ export default function Subscription() {
                 <div className="flex items-center justify-between">
                   <div>
                     <h3 className="text-lg font-semibold text-white mb-1">
-                      You're Subscribed!
+                      You&apos;re Subscribed!
                     </h3>
                     <p className="text-gray-400">
                       Current Plan: <span className="text-purple-400 font-medium">{status.subscription.planName}</span>
