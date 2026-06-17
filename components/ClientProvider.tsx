@@ -9,6 +9,5 @@ export default function ClientProvider({ children }: { children: React.ReactNode
     useAuthStore.persist.rehydrate();
     setMounted(true);
   }, []);
-  if (!mounted) return null;
   return <>{children}</>;
 }
