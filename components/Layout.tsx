@@ -18,7 +18,6 @@ export default function Layout({ children }: LayoutProps) {
     <ProtectedRoute>
       <div className="min-h-screen bg-gray-50 flex">
       <Sidebar role={role} />
-
       <div className="flex-1 flex flex-col min-h-screen ml-64">
         {/* Top Header */}
         <header className="h-20 glass-dark border-b border-gray-200 flex items-center justify-between px-8 sticky top-0 z-40">
