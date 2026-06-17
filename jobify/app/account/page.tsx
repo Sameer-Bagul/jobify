@@ -15,6 +15,11 @@ interface Profile {
   currentJobTitle: string;
   linkedinUrl: string;
   portfolioUrl: string;
+  resumeUrl?: string;
+  resumeAnalysis?: {
+    extractedSkills: string[];
+    experienceSummary?: string | null;
+  };
 }
 
 export default function Account() {
@@ -24,6 +29,7 @@ export default function Account() {
   const [saving, setSaving] = useState(false);
   const [success, setSuccess] = useState(false);
   const [skillInput, setSkillInput] = useState('');
+  const [uploadingResume, setUploadingResume] = useState(false);
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -89,6 +95,29 @@ export default function Account() {
     }
   };
 
+  const handleResumeUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (!e.target.files || !e.target.files[0]) return;
+    const file = e.target.files[0];
+    
+    setUploadingResume(true);
+    const formData = new FormData();
+    formData.append('resume', file);
+    
+    try {
+      const res = await api.post('/users/resume', formData, {
+        headers: { 'Content-Type': 'multipart/form-data' }
+      });
+      if (res.data.profile) {
+        setProfile(res.data.profile);
+      }
+    } catch (err) {
+      console.error('Failed to upload resume:', err);
+      alert('Failed to parse resume. Please try again or enter details manually.');
+    } finally {
+      setUploadingResume(false);
+    }
+  };
+
   if (loading) {
     return (
       <Layout>
@@ -123,6 +152,47 @@ export default function Account() {
               <h2 className="text-xl font-semibold text-dark-walnut">{profile?.name || 'Your Name'}</h2>
               <p className="text-gray-600">{profile?.currentJobTitle || 'Job Title'}</p>
             </div>
+          </div>
+
+          <div className="card border-dashed border-2 border-tangerine-dream/30 bg-tangerine-dream/5 p-6 rounded-xl flex flex-col items-center justify-center text-center">
+            <h3 className="text-lg font-bold text-dark-walnut mb-2">Automated Resume Parsing</h3>
+            <p className="text-gray-600 text-sm mb-4">
+              Upload your PDF resume. We will automatically extract your skills and experience to match you with top jobs! No AI involved, just blazing fast data extraction.
+            </p>
+            
+            <label className="btn-secondary cursor-pointer relative overflow-hidden group">
+              {uploadingResume ? (
+                <span className="flex items-center gap-2"><Loader2 className="h-4 w-4 animate-spin" /> Extracting...</span>
+              ) : (
+                "Upload Resume (PDF)"
+              )}
+              <input
+                type="file"
+                accept=".pdf"
+                className="absolute inset-0 opacity-0 cursor-pointer"
+                onChange={handleResumeUpload}
+                disabled={uploadingResume}
+              />
+            </label>
+
+            {profile?.resumeAnalysis?.extractedSkills && profile.resumeAnalysis.extractedSkills.length > 0 && (
+              <div className="mt-4 p-4 bg-white rounded-lg shadow-sm w-full text-left">
+                <h4 className="text-sm font-bold text-green-600 mb-2 flex items-center gap-2"><CheckCircle className="h-4 w-4" /> Successfully Extracted:</h4>
+                <p className="text-xs text-gray-500 mb-2"><strong>Experience:</strong> {profile.resumeAnalysis.experienceSummary || 'N/A'}</p>
+                <div className="flex flex-wrap gap-1">
+                  {profile.resumeAnalysis.extractedSkills.map(skill => (
+                    <span key={skill} className="text-[10px] bg-green-50 text-green-700 px-2 py-1 rounded-full">{skill}</span>
+                  ))}
+                </div>
+                <p className="text-[10px] text-gray-400 mt-2 italic">These skills have been automatically appended to your profile.</p>
+              </div>
+            )}
+            
+            {profile?.resumeUrl && !profile?.resumeAnalysis && (
+              <p className="text-sm text-green-600 mt-4 flex items-center gap-2">
+                <CheckCircle className="h-4 w-4" /> Resume saved on Vercel Blob successfully.
+              </p>
+            )}
           </div>
 
           <div className="grid md:grid-cols-2 gap-4">
