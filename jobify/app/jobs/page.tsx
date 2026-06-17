@@ -80,7 +80,7 @@ export default function Jobs() {
             {filteredJobs.map((job) => (
               <Link
                 key={job._id}
-                href={`/dashboard/jobs/${job._id}`}
+                href={`/jobs/${job._id}`}
                 className="card block hover:border-tangerine-dream/30 transition-colors"
               >
                 <div className="flex justify-between items-start">
@@ -95,7 +95,7 @@ export default function Jobs() {
                       </span>
                       <span className="flex items-center gap-1">
                         <DollarSign className="h-4 w-4" />
-                        ${job.salaryMin.toLocaleString()} - ${job.salaryMax.toLocaleString()}
+                        ${job.salaryMin?.toLocaleString() || "N/A"} - ${job.salaryMax?.toLocaleString() || "N/A"}
                       </span>
                       <span className="flex items-center gap-1">
                         <Clock className="h-4 w-4" />

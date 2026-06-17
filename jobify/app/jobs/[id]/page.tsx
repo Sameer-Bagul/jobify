@@ -33,7 +33,7 @@ export default function JobDetail() {
     const fetchJob = async () => {
       try {
         const res = await api.get(`/jobs/${id}`);
-        setJob(res.data);
+        setJob(res.data.job || res.data);
       } catch (err) {
         console.error('Failed to fetch job:', err);
       } finally {
@@ -92,7 +92,7 @@ export default function JobDetail() {
             </span>
             <span className="flex items-center gap-2">
               <DollarSign className="h-5 w-5" />
-              ${job.salaryMin.toLocaleString()} - ${job.salaryMax.toLocaleString()}
+              ${job.salaryMin?.toLocaleString() || "N/A"} - ${job.salaryMax?.toLocaleString() || "N/A"}
             </span>
             <span className="flex items-center gap-2">
               <Clock className="h-5 w-5" />

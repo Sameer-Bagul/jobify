@@ -121,7 +121,7 @@ export default function AdminJobs() {
                   </div>
                   <div className="flex items-center gap-2">
                     <a
-                      href={`/dashboard/jobs/${job._id}`}
+                      href={`/jobs/${job._id}`}
                       className="p-2 rounded-lg bg-gray-200 hover:bg-dark-600 transition-colors"
                     >
                       <Eye className="h-5 w-5 text-gray-600" />
