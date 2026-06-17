@@ -8,7 +8,7 @@ export default function Navbar() {
                 <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-cayenne-red to-tangerine-dream flex items-center justify-center shadow-lg shadow-purple-500/20">
                     <Briefcase className="h-5 w-5 text-dark-walnut" />
                 </div>
-                <span className="text-2xl font-bold bg-gradient-to-r from-white to-gray-400 bg-clip-text text-transparent font-outfit">Jobify</span>
+                <span className="text-2xl font-bold bg-gradient-to-r from-cayenne-red to-tangerine-dream bg-clip-text text-transparent font-outfit">Jobify</span>
             </div>
             <div className="hidden md:flex items-center gap-8 mr-auto ml-12">
                 <a href="#features" className="text-sm font-medium text-gray-600 hover:text-dark-walnut transition-colors">Features</a>

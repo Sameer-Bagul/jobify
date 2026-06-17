@@ -15,18 +15,26 @@ export default function Dashboard() {
   const [stats, setStats] = useState<Stats | null>(null);
   const [loading, setLoading] = useState(true);
 
+  const [matchedJobs, setMatchedJobs] = useState<any[]>([]);
+
   useEffect(() => {
-    const fetchStats = async () => {
+    const fetchData = async () => {
       try {
-        const res = await api.get('/email/stats');
-        setStats(res.data);
+        const [statsRes, jobsRes] = await Promise.all([
+          api.get('/email/stats'),
+          api.get('/jobs/match')
+        ]);
+        setStats(statsRes.data);
+        if (jobsRes.data.jobs) {
+          setMatchedJobs(jobsRes.data.jobs);
+        }
       } catch (err) {
-        console.error('Failed to fetch stats:', err);
+        console.error('Failed to fetch dashboard data:', err);
       } finally {
         setLoading(false);
       }
     };
-    fetchStats();
+    fetchData();
   }, []);
 
   return (
@@ -129,6 +137,56 @@ export default function Dashboard() {
               </li>
             </ul>
           </div>
+        </div>
+        <div className="mt-8">
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-xl font-bold text-dark-walnut flex items-center gap-2">
+              <span className="text-tangerine-dream">✨</span> Recommended Jobs
+            </h2>
+          </div>
+          
+          {loading ? (
+             <div className="flex justify-center p-8"><div className="w-8 h-8 border-4 border-gray-300 border-t-tangerine-dream rounded-full animate-spin"></div></div>
+          ) : matchedJobs.length > 0 ? (
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {matchedJobs.map((job) => (
+                <div key={job._id} className="card hover:border-tangerine-dream/50 transition-colors group">
+                  <div className="flex justify-between items-start mb-4">
+                    <div>
+                      <h3 className="font-bold text-dark-walnut group-hover:text-tangerine-dream transition-colors">{job.title}</h3>
+                      <p className="text-sm text-gray-500">{job.company}</p>
+                    </div>
+                    <div className="bg-green-100 text-green-700 text-xs font-bold px-2 py-1 rounded-full whitespace-nowrap">
+                      {job.matchPercentage}% Match
+                    </div>
+                  </div>
+                  <div className="flex flex-wrap gap-2 mb-4">
+                    {(job.matchedSkills || []).slice(0, 3).map((skill: string) => (
+                      <span key={skill} className="px-2 py-1 bg-gray-100 text-gray-600 rounded-md text-xs font-medium">
+                        {skill}
+                      </span>
+                    ))}
+                    {(job.matchedSkills || []).length > 3 && (
+                      <span className="px-2 py-1 bg-gray-100 text-gray-600 rounded-md text-xs font-medium">+{(job.matchedSkills || []).length - 3}</span>
+                    )}
+                  </div>
+                  <div className="pt-4 border-t border-gray-100 flex items-center justify-between">
+                    <span className="text-sm font-semibold text-dark-walnut">
+                      {job.salaryCurrency === "USD" ? "$" : job.salaryCurrency === "GBP" ? "£" : "₹"}{(job.salaryMin / 1000).toFixed(0)}k - {(job.salaryMax / 1000).toFixed(0)}k
+                    </span>
+                    <a href="/jobs" className="text-tangerine-dream text-sm font-bold hover:underline">View Details</a>
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="card text-center p-8 bg-gradient-to-br from-gray-50 to-gray-100 border-dashed">
+              <Briefcase className="h-12 w-12 text-gray-400 mx-auto mb-3" />
+              <h3 className="font-bold text-gray-700 mb-2">No recommendations yet</h3>
+              <p className="text-sm text-gray-500 mb-4">Upload your resume or add skills to your profile to get personalized job recommendations.</p>
+              <a href="/account" className="btn-primary inline-flex">Update Profile</a>
+            </div>
+          )}
         </div>
       </div>
     </Layout>

@@ -3,6 +3,10 @@ import { User, UserProfile, Subscription, SavedItem, ActivityLog, EmailTemplate,
 import { encrypt } from "@/lib/utils/encryption";
 import connectDB from "@/lib/db";
 import { requireAuth, requireRole, handleAuthError } from "@/lib/utils/auth-server";
+import { put } from '@vercel/blob';
+import { parseResumeBuffer } from '@/lib/utils/resumeParser';
+import { writeFile, mkdir } from "fs/promises";
+import { join } from "path";
 
 const json = (data: any, status = 200) => NextResponse.json(data, { status });
 
@@ -197,18 +201,15 @@ async function updateProfile(userId: string, body: any) {
   return json({ message: "Profile updated successfully", profile });
 }
 
-import { writeFile, mkdir } from "fs/promises";
-import { join } from "path";
-
 async function uploadResume(userId: string, formData: FormData | null) {
   if (!formData) return json({ error: "Invalid form data" }, 400);
   
   const file = formData.get("resume") as File | null;
   if (!file) return json({ error: "No file uploaded" }, 400);
 
-  const allowedTypes = ["application/pdf", "application/msword", "application/vnd.openxmlformats-officedocument.wordprocessingml.document"];
+  const allowedTypes = ["application/pdf"];
   if (!allowedTypes.includes(file.type)) {
-    return json({ error: "Only PDF, DOC, and DOCX files are allowed" }, 400);
+    return json({ error: "Only PDF files are supported for parsing" }, 400);
   }
 
   const profile = await UserProfile.findOne({ userId });
@@ -217,21 +218,46 @@ async function uploadResume(userId: string, formData: FormData | null) {
   const bytes = await file.arrayBuffer();
   const buffer = Buffer.from(bytes);
 
-  const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
-  const ext = file.name.substring(file.name.lastIndexOf('.'));
-  const filename = `${uniqueSuffix}${ext}`;
-  
-  const uploadDir = join(process.cwd(), "public", "uploads");
-  await mkdir(uploadDir, { recursive: true });
-  
-  const path = join(uploadDir, filename);
-  await writeFile(path, buffer);
+  // 1. Upload to Vercel Blob
+  const uniqueFilename = `resumes/${userId}-${Date.now()}.pdf`;
+  let resumeUrl = "";
+  try {
+    const blob = await put(uniqueFilename, file, { access: 'public' });
+    resumeUrl = blob.url;
+  } catch (err) {
+    console.warn("Vercel Blob upload failed, falling back to local storage if in dev.", err);
+    // Graceful fallback for local development if BLOB_READ_WRITE_TOKEN is not set
+    const uploadDir = join(process.cwd(), "public", "uploads");
+    await mkdir(uploadDir, { recursive: true }).catch(() => {});
+    const path = join(uploadDir, `${Date.now()}.pdf`);
+    await writeFile(path, buffer);
+    resumeUrl = `/uploads/${Date.now()}.pdf`;
+  }
 
-  const resumeUrl = `/uploads/${filename}`;
+  // 2. Parse PDF for skills and experience
+  const analysis = await parseResumeBuffer(buffer);
+
+  // 3. Update Profile
   profile.resumeUrl = resumeUrl;
+  
+  if (analysis.extractedSkills.length > 0) {
+    profile.resumeAnalysis = {
+      extractedSkills: analysis.extractedSkills,
+      experienceSummary: analysis.experienceSummary || "",
+      projectsSummary: "",
+    };
+    // Append extracted skills to main skills array without duplicates
+    const allSkills = new Set([...profile.skills, ...analysis.extractedSkills]);
+    profile.skills = Array.from(allSkills);
+  }
+
   await profile.save();
 
-  return json({ message: "Resume uploaded successfully", resumeUrl });
+  return json({ 
+    message: "Resume uploaded and parsed successfully", 
+    resumeUrl, 
+    analysis: profile.resumeAnalysis 
+  });
 }
 
 async function getSavedItems(req: NextRequest, userId: string) {

@@ -23,7 +23,11 @@ export default function ProtectedRoute({
     if (!hasHydrated) return;
 
     if (!isAuthenticated() || !user) {
-      router.replace('/login');
+      // If local storage is missing but cookie exists, we are in an infinite loop.
+      // Force clear the server cookie before redirecting to login.
+      fetch('/api/auth/logout', { method: 'POST' }).finally(() => {
+        router.replace('/login');
+      });
       return;
     }
 

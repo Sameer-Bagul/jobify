@@ -95,13 +95,15 @@ async function createSubscriptionOrder(userId: string, body: any) {
 
   if (!result.success || !result.order) return json({ error: result.error || "Failed to create order" }, 500);
 
+  const order = result.order as any;
+
   const subscription = await Subscription.create({
     userId, planName: planConfig.name, planTier: planTier as PlanTier, dailyEmailLimit: planConfig.dailyEmailLimit,
-    amount: planConfig.price, currency: SUBSCRIPTION_CURRENCY, status: "pending", razorpayOrderId: result.order.id,
+    amount: planConfig.price, currency: SUBSCRIPTION_CURRENCY, status: "pending", razorpayOrderId: order.id,
   });
 
   return json({
-    orderId: result.order.id, amount: result.order.amount, currency: result.order.currency,
+    orderId: order.id, amount: order.amount, currency: order.currency,
     keyId: getRazorpayKeyId(), subscriptionId: subscription._id, planName: planConfig.name, planTier,
   });
 }

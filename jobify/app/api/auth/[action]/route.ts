@@ -21,6 +21,8 @@ export async function POST(req: NextRequest, { params }: { params: Promise<{ act
         return await signup(body);
       case "login":
         return await login(body, req);
+      case "logout":
+        return await logoutRoute();
       case "forgot-password":
         return await forgotPassword(body);
       case "verify-otp":
@@ -126,6 +128,12 @@ async function login(body: any, req: NextRequest) {
   });
   
   response.cookies.set('token', token, { httpOnly: true, secure: process.env.NODE_ENV === 'production', maxAge: 604800, path: '/' });
+  return response;
+}
+
+async function logoutRoute() {
+  const response = json({ message: "Logged out successfully" });
+  response.cookies.set('token', '', { httpOnly: true, secure: process.env.NODE_ENV === 'production', maxAge: 0, path: '/' });
   return response;
 }
 

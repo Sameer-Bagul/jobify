@@ -58,7 +58,12 @@ export default function Sidebar({ role }: SidebarProps) {
 
   const links = role === 'admin' ? adminLinks : role === 'recruiter' ? recruiterLinks : seekerLinks;
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
+    try {
+      await fetch('/api/auth/logout', { method: 'POST' });
+    } catch (e) {
+      console.error('Failed to clear cookie', e);
+    }
     logout();
     router.push('/');
   };
@@ -70,7 +75,7 @@ export default function Sidebar({ role }: SidebarProps) {
           <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-cayenne-red to-tangerine-dream flex items-center justify-center shadow-lg shadow-purple-500/20 group-hover:scale-110 transition-transform">
             <Briefcase className="h-5 w-5 text-dark-walnut" />
           </div>
-          <span className="text-2xl font-bold font-outfit bg-gradient-to-r from-white to-gray-400 bg-clip-text text-transparent">
+          <span className="text-2xl font-bold font-outfit bg-gradient-to-r from-cayenne-red to-tangerine-dream bg-clip-text text-transparent">
             Jobify
           </span>
         </Link>

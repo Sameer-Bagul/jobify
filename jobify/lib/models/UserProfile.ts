@@ -17,8 +17,8 @@ export interface IUserProfile extends Document {
   currentJobTitle: string;
   resumeAnalysis: {
     extractedSkills: string[];
-    experienceSummary: string;
-    projectsSummary: string;
+    experienceSummary: string | null;
+    projectsSummary: string | null;
   };
   dailyEmailSentCount: number;
   lastEmailResetDate: Date;

@@ -15,10 +15,13 @@ import {
   Target,
   Rocket,
   Search,
-  MessageSquare
+  MessageSquare,
+  Lock
 } from 'lucide-react';
+import { useAuthStore } from '@/store/auth';
 
 export default function Landing() {
+  const { user, isAuthenticated, hasHydrated } = useAuthStore();
   const features = [
     {
       icon: <Mail className="h-6 w-6 text-tangerine-dream" />,
@@ -103,7 +106,7 @@ export default function Landing() {
           <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-cayenne-red to-tangerine-dream flex items-center justify-center shadow-lg shadow-purple-500/20">
             <Briefcase className="h-5 w-5 text-dark-walnut" />
           </div>
-          <span className="text-2xl font-bold bg-gradient-to-r from-white to-gray-400 bg-clip-text text-transparent font-outfit">Jobify</span>
+          <span className="text-2xl font-bold bg-gradient-to-r from-cayenne-red to-tangerine-dream bg-clip-text text-transparent font-outfit">Jobify</span>
         </div>
         <div className="hidden md:flex items-center gap-8 mr-auto ml-12">
           <a href="#features" className="text-sm font-medium text-gray-600 hover:text-dark-walnut transition-colors">Features</a>
@@ -111,100 +114,110 @@ export default function Landing() {
           <a href="#testimonials" className="text-sm font-medium text-gray-600 hover:text-dark-walnut transition-colors">Testimonials</a>
         </div>
         <div className="flex items-center gap-4">
-          <Link href="/login" className="px-4 py-2 text-sm font-medium text-gray-600 hover:text-dark-walnut transition-colors">
-            Login
-          </Link>
-          <Link href="/signup" className="btn-primary flex items-center gap-2 text-sm">
-            Get Started <ArrowRight className="h-4 w-4" />
-          </Link>
+          {hasHydrated && isAuthenticated() ? (
+            <Link 
+              href={user?.role === 'recruiter' ? '/dashboard/recruiter' : user?.role === 'admin' ? '/dashboard/admin' : '/dashboard'} 
+              className="flex items-center gap-3 px-2 py-1 rounded-full hover:bg-gray-100 transition-colors"
+            >
+              <span className="text-sm font-medium text-dark-walnut px-2">Dashboard</span>
+              <div className="w-9 h-9 rounded-full bg-gradient-to-br from-cayenne-red to-tangerine-dream text-white flex items-center justify-center font-bold text-sm shadow-md">
+                {user?.name?.[0]?.toUpperCase() || user?.email?.[0]?.toUpperCase() || 'U'}
+              </div>
+            </Link>
+          ) : (
+            <>
+              <Link href="/login" className="px-4 py-2 text-sm font-medium text-gray-600 hover:text-dark-walnut transition-colors">
+                Login
+              </Link>
+              <Link href="/signup" className="btn-primary flex items-center gap-2 text-sm">
+                Get Started <ArrowRight className="h-4 w-4" />
+              </Link>
+            </>
+          )}
         </div>
       </nav>
 
       <main className="relative z-10">
         {/* Hero Section */}
-        <section className="max-w-7xl mx-auto px-6 pt-20 pb-24 grid lg:grid-cols-2 gap-16 items-center">
-          <div className="text-left">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full glass mb-8 border-tangerine-dream/20 animate-fade-in">
-              <span className="flex h-2 w-2 rounded-full bg-white animate-pulse" />
-              <span className="text-xs font-bold uppercase tracking-wider text-tangerine-dream">Newly Launched v2.0</span>
-            </div>
+        <section className="max-w-7xl mx-auto px-6 pt-24 pb-12 flex flex-col items-center text-center">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full glass mb-8 border-tangerine-dream/20 animate-fade-in">
+            <span className="flex h-2 w-2 rounded-full bg-tangerine-dream animate-pulse" />
+            <span className="text-xs font-bold uppercase tracking-wider text-tangerine-dream">Newly Launched v2.0</span>
+          </div>
 
-            <h1 className="text-6xl md:text-8xl font-bold mb-8 leading-[1.1] font-outfit">
-              <span className="text-dark-walnut">Stop Applying.</span>
-              <br />
-              <span className="gradient-text">Start Connecting.</span>
-            </h1>
+          <h1 className="text-6xl md:text-8xl font-bold mb-8 leading-[1.1] font-outfit max-w-4xl mx-auto">
+            <span className="text-dark-walnut">Stop Applying.</span>
+            <br />
+            <span className="gradient-text">Start Connecting.</span>
+          </h1>
 
-            <p className="text-xl text-gray-600 mb-12 max-w-xl leading-relaxed">
-              The world's premier automated job search platform that doesn't just find jobs, but lands you interviews through automated, personalized recruiter outreach.
-            </p>
+          <p className="text-xl text-gray-600 mb-12 max-w-2xl mx-auto leading-relaxed">
+            The world's premier automated job search platform that doesn't just find jobs, but lands you interviews through automated, personalized recruiter outreach.
+          </p>
 
-            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4">
-              <Link href="/signup" className="btn-primary text-lg px-8 py-4 flex items-center justify-center gap-2 group">
-                Start for Free <Rocket className="h-5 w-5 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
-              </Link>
-              <Link href="/recruiter" className="btn-secondary text-lg px-8 py-4 flex items-center justify-center gap-2">
-                Hiring Talent? <ArrowRight className="h-5 w-5" />
-              </Link>
-            </div>
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-4 w-full sm:w-auto">
+            <Link href="/signup" className="btn-primary text-lg px-8 py-4 flex items-center justify-center gap-2 group">
+              Start for Free <Rocket className="h-5 w-5 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+            </Link>
+            <Link href="/recruiter" className="btn-secondary text-lg px-8 py-4 flex items-center justify-center gap-2">
+              Hiring Talent? <ArrowRight className="h-5 w-5" />
+            </Link>
+          </div>
 
-            <div className="mt-12 flex items-center gap-6">
-              <div className="flex -space-x-3">
-                {[1, 2, 3, 4].map((i) => (
-                  <div key={i} className="w-10 h-10 rounded-full border-2 border-dark-900 bg-gray-200 flex items-center justify-center text-[10px] font-bold">
-                    {String.fromCharCode(64 + i)}
-                  </div>
-                ))}
-                <div className="w-10 h-10 rounded-full border-2 border-dark-900 bg-white flex items-center justify-center text-[10px] font-bold">
-                  99+
+          <div className="mt-12 flex items-center justify-center gap-6 mb-20">
+            <div className="flex -space-x-3">
+              {[1, 2, 3, 4].map((i) => (
+                <div key={i} className="w-10 h-10 rounded-full border-2 border-white bg-gray-200 flex items-center justify-center text-[10px] font-bold shadow-sm">
+                  {String.fromCharCode(64 + i)}
                 </div>
+              ))}
+              <div className="w-10 h-10 rounded-full border-2 border-white bg-gray-100 flex items-center justify-center text-[10px] font-bold shadow-sm">
+                99+
               </div>
-              <div className="text-sm text-gray-500">
-                <span className="text-dark-walnut font-bold">2,500+</span> professionals already landed roles
-              </div>
+            </div>
+            <div className="text-sm text-gray-500">
+              <span className="text-dark-walnut font-bold">2,500+</span> professionals already landed roles
             </div>
           </div>
 
-          <div className="relative hidden lg:block">
-            
-            <div className="card border-gray-200 p-2 overflow-hidden shadow-2xl relative">
-              <div className="bg-gray-50 rounded-xl p-6 relative overflow-hidden">
-                <div className="flex items-center gap-3 mb-8 border-b border-gray-200 pb-4">
-                  <div className="w-3 h-3 rounded-full bg-red-500" />
-                  <div className="w-3 h-3 rounded-full bg-yellow-500" />
-                  <div className="w-3 h-3 rounded-full bg-green-500" />
-                  <div className="ml-4 flex-1 h-6 bg-white/5 rounded-full flex items-center px-3">
-                    <span className="text-[10px] text-gray-500">recruiter@toptech.com - Cold Outreach Sequence</span>
+          {/* Browser Window Mockup */}
+          <div className="w-full max-w-5xl mx-auto relative perspective-1000 mt-4">
+            <div className="card border-gray-200 p-2 overflow-hidden shadow-2xl relative bg-white/40 backdrop-blur-xl transform transition-transform duration-700 hover:scale-[1.02]">
+              <div className="bg-gray-50 rounded-xl p-0 relative overflow-hidden border border-gray-200/50 shadow-inner h-[600px] flex flex-col">
+                {/* Browser Header */}
+                <div className="flex items-center gap-3 bg-white border-b border-gray-200 px-4 py-3">
+                  <div className="flex gap-2">
+                    <div className="w-3 h-3 rounded-full bg-red-400" />
+                    <div className="w-3 h-3 rounded-full bg-amber-400" />
+                    <div className="w-3 h-3 rounded-full bg-green-400" />
+                  </div>
+                  <div className="ml-4 flex-1 h-7 bg-gray-100 rounded-md flex items-center justify-center px-3 border border-gray-200/50 max-w-lg mx-auto">
+                    <span className="text-[11px] text-gray-500 flex items-center gap-2"><Lock className="w-3 h-3" /> app.jobify.com/dashboard</span>
                   </div>
                 </div>
 
-                <div className="space-y-4">
-                  <div className="shimmer h-10 w-3/4 rounded-lg bg-white/5" />
-                  <div className="space-y-2">
-                    <div className="shimmer h-4 w-full rounded bg-white/5" />
-                    <div className="shimmer h-4 w-5/6 rounded bg-white/5" />
-                    <div className="shimmer h-4 w-4/6 rounded bg-white/5" />
+                {/* Browser Content placeholder */}
+                <div className="flex-1 p-8 bg-gray-50/50 flex">
+                  {/* Sidebar Mock */}
+                  <div className="w-48 hidden md:flex flex-col gap-4 border-r border-gray-200/50 pr-6">
+                    <div className="h-6 w-24 bg-gray-200 rounded animate-pulse mb-8" />
+                    {[1, 2, 3, 4, 5].map(i => <div key={i} className="h-8 w-full bg-gray-200/50 rounded animate-pulse" />)}
                   </div>
-                  <div className="flex items-center gap-4 mt-8">
-                    <div className="w-12 h-12 rounded-lg bg-white border border-tangerine-dream/30 flex items-center justify-center">
-                      <CheckCircle2 className="text-tangerine-dream h-6 w-6" />
+                  {/* Main content Mock */}
+                  <div className="flex-1 md:pl-8 flex flex-col gap-6">
+                    <div className="flex justify-between items-center mb-4">
+                      <div className="h-8 w-48 bg-gray-200 rounded animate-pulse" />
+                      <div className="h-8 w-8 bg-gray-200 rounded-full animate-pulse" />
                     </div>
-                    <div>
-                      <div className="text-xs font-bold text-dark-walnut uppercase tracking-widest">Matched via AI</div>
-                      <div className="text-[10px] text-gray-500">Skill overlap: 94%</div>
+                    <div className="grid grid-cols-3 gap-4 mb-4">
+                      {[1, 2, 3].map(i => <div key={i} className="h-24 w-full bg-white rounded-xl shadow-sm border border-gray-100 animate-pulse" />)}
                     </div>
-                  </div>
-                </div>
-
-                <div className="absolute bottom-4 right-4 animate-float">
-                  <div className="glass p-3 rounded-xl border-white/20 shadow-xl">
-                    <div className="flex items-center gap-2 mb-1">
-                      <Star className="h-3 w-3 text-yellow-500 fill-yellow-500" />
-                      <span className="text-[10px] font-bold text-dark-walnut">Interview Invitation</span>
-                    </div>
-                    <div className="text-[9px] text-gray-500 italic">"Love your background in React..."</div>
+                    <div className="h-64 w-full bg-white rounded-xl shadow-sm border border-gray-100 animate-pulse" />
                   </div>
                 </div>
+                
+                {/* Partial Image overlay gradient to fade out the bottom seamlessly */}
+                <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-gray-50 to-transparent pointer-events-none" />
               </div>
             </div>
           </div>
